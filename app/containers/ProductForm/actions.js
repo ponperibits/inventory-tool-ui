@@ -17,8 +17,7 @@ import {
   CHANGE_PRICE,
   CHANGE_SELLING_PRICE,
   CHANGE_CURRENCY,
-  CHANGE_NO_OF_UNITS,
-  CHANGE_SUPPLIER,
+  CHANGE_MIN_STOCK,
   SET_PRODUCT_DETAILS,
   SHOW_LOADING,
   VALIDATION_ERROR,
@@ -163,12 +162,7 @@ export const changeCurrency = payload => ({
   payload,
 });
 
-export const changeNoOfUnits = payload => ({
-  type: CHANGE_NO_OF_UNITS,
-  payload,
-});
-
-export const changeSupplier = payload => ({
-  type: CHANGE_SUPPLIER,
+export const changeMinStock = payload => ({
+  type: CHANGE_MIN_STOCK,
   payload,
 });

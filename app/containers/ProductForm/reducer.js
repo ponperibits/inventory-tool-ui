@@ -4,7 +4,6 @@
  *
  */
 import produce from 'immer';
-import { get } from 'lodash';
 import {
   INIT,
   CHANGE_NAME,
@@ -12,12 +11,10 @@ import {
   CHANGE_PRICE,
   CHANGE_SELLING_PRICE,
   CHANGE_CURRENCY,
-  CHANGE_NO_OF_UNITS,
-  CHANGE_SUPPLIER,
+  CHANGE_MIN_STOCK,
   SET_PRODUCT_DETAILS,
   SHOW_LOADING,
   VALIDATION_ERROR,
-  SET_AVAILABLE_SUPPLIERS,
 } from './constants';
 
 export const initialState = {
@@ -26,9 +23,7 @@ export const initialState = {
   price: '',
   sellingPrice: '',
   currency: '',
-  noOfUnits: '',
-  supplierId: '',
-  availableSuppliers: [],
+  minStockWarning: '',
   isEdit: false,
   isLoading: false,
   errorMessage: null,
@@ -56,11 +51,8 @@ const productFormReducer = (state = initialState, action) =>
       case CHANGE_CURRENCY:
         draft.currency = action.payload;
         break;
-      case CHANGE_NO_OF_UNITS:
-        draft.noOfUnits = action.payload;
-        break;
-      case CHANGE_SUPPLIER:
-        draft.supplierId = action.payload;
+      case CHANGE_MIN_STOCK:
+        draft.minStockWarning = action.payload;
         break;
       case SET_PRODUCT_DETAILS:
         draft.name = action.payload.name;
@@ -68,12 +60,8 @@ const productFormReducer = (state = initialState, action) =>
         draft.price = action.payload.price;
         draft.sellingPrice = action.payload.sellingPrice;
         draft.currency = action.payload.currency;
-        draft.noOfUnits = action.payload.noOfUnits;
-        draft.supplierId = get(action, 'payload.supplierId._id', '');
+        draft.minStockWarning = action.payload.minStockWarning;
         draft.isEdit = true;
-        break;
-      case SET_AVAILABLE_SUPPLIERS:
-        draft.availableSuppliers = action.payload;
         break;
       case SHOW_LOADING:
         draft.isLoading = action.payload;

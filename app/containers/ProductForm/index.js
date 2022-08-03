@@ -28,9 +28,7 @@ export function ProductForm() {
     price,
     sellingPrice,
     currency,
-    noOfUnits,
-    supplierId,
-    availableSuppliers,
+    minStockWarning,
     isEdit,
     isLoading,
     errorMessage,
@@ -41,9 +39,7 @@ export function ProductForm() {
     price: selectors.price(state),
     sellingPrice: selectors.sellingPrice(state),
     currency: selectors.currency(state),
-    noOfUnits: selectors.noOfUnits(state),
-    supplierId: selectors.supplierId(state),
-    availableSuppliers: selectors.availableSuppliers(state),
+    minStockWarning: selectors.minStockWarning(state),
     isEdit: selectors.isEdit(state),
     isLoading: selectors.isLoading(state),
     errorMessage: selectors.errorMessage(state),
@@ -72,8 +68,7 @@ export function ProductForm() {
           price,
           sellingPrice,
           currency,
-          noOfUnits,
-          supplierId,
+          minStockWarning,
         }),
       );
     } else {
@@ -84,8 +79,7 @@ export function ProductForm() {
           price,
           sellingPrice,
           currency,
-          noOfUnits,
-          supplierId,
+          minStockWarning,
         }),
       );
     }
@@ -217,40 +211,17 @@ export function ProductForm() {
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Label for="noOfUnits" sm={2}>
-            No of Units
+          <Label for="minStockWarning" sm={2}>
+            Minimum Stock to Notify
           </Label>
           <Col sm={6}>
             <MBInput
               type="number"
-              name="noOfUnits"
-              placeholder="Product No of Units"
+              name="minStockWarning"
+              placeholder="Min Stock to Notify"
               error={validations}
-              value={noOfUnits}
-              onChange={e => dispatch(operations.changeNoOfUnits(e))}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Label for="supplierId" sm={2}>
-            Supplier
-          </Label>
-          <Col sm={6}>
-            <MBSelect
-              className="basic-multi-select w-100"
-              data={availableSuppliers.map(({ name: supplierName, _id }) => ({
-                id: _id,
-                text: supplierName,
-              }))}
-              classNamePrefix="select"
-              placeholder="Select Supplier"
-              value={supplierId}
-              error={validations}
-              name="supplierId"
-              onChange={e => dispatch(operations.changeSupplier(e))}
-              getOptionLabel={option => option.name}
-              // eslint-disable-next-line no-underscore-dangle
-              getOptionValue={option => option._id}
+              value={minStockWarning}
+              onChange={e => dispatch(operations.changeMinStock(e))}
             />
           </Col>
         </FormGroup>

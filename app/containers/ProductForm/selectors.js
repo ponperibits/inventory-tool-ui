@@ -5,11 +5,8 @@ export const description = state => get(state, 'productForm.description', '');
 export const price = state => get(state, 'productForm.price', '');
 export const sellingPrice = state => get(state, 'productForm.sellingPrice', '');
 export const currency = state => get(state, 'productForm.currency', '');
-export const noOfUnits = state => get(state, 'productForm.noOfUnits', '');
-export const supplierId = state => get(state, 'productForm.supplierId', '');
-
-export const availableSuppliers = state =>
-  get(state, 'productForm.availableSuppliers', []);
+export const minStockWarning = state =>
+  get(state, 'productForm.minStockWarning', '');
 
 export const isEdit = state => get(state, 'productForm.isEdit', false);
 

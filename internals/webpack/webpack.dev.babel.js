@@ -12,7 +12,7 @@ module.exports = require('./webpack.base.babel')({
 
   // Add hot reloading in development
   entry: [
-    require.resolve('react-app-polyfill/ie11'),
+    // require.resolve('react-app-polyfill/ie11'),
     'webpack-hot-middleware/client?reload=true',
     path.join(process.cwd(), 'app/app.js'), // Start with js/app.js
   ],
@@ -24,9 +24,13 @@ module.exports = require('./webpack.base.babel')({
   },
 
   optimization: {
-    splitChunks: {
-      chunks: 'all',
-    },
+    minimize: false,
+    providedExports: false,
+    usedExports: false,
+
+    // splitChunks: {
+    //   chunks: 'all',
+    // },
   },
 
   // Add development plugins
@@ -46,7 +50,7 @@ module.exports = require('./webpack.base.babel')({
   // See https://webpack.js.org/configuration/devtool/#devtool
   devtool: 'eval-source-map',
 
-  performance: {
-    hints: false,
-  },
+  // performance: {
+  //   hints: false,
+  // },
 });

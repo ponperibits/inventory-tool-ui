@@ -27,18 +27,11 @@ export function ProductManagement() {
 
   const getProductsData = () =>
     products.map(
-      ({
-        _id,
-        name,
-        price,
-        sellingPrice,
-        noOfUnits,
-        supplierId: { name: supplierName },
-      }) => (
+      ({ _id, name, price, sellingPrice, noOfUnits, minStockWarning }) => (
         <React.Fragment key={_id}>
           <tr
             className={classNames({
-              'table-danger': noOfUnits < 5,
+              'table-danger': noOfUnits < minStockWarning,
             })}
           >
             <td
@@ -51,7 +44,6 @@ export function ProductManagement() {
             <td>{price}</td>
             <td>{sellingPrice}</td>
             <td>{noOfUnits}</td>
-            <td>{supplierName}</td>
             <td>
               <Button
                 title="Edit Party"
@@ -116,7 +108,6 @@ export function ProductManagement() {
               <th scope="col">Price</th>
               <th scope="col">Selling Price</th>
               <th scope="col">No. of Units</th>
-              <th scope="col">Supplier</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>

@@ -20,6 +20,14 @@ module.exports = options => ({
   module: {
     rules: [
       {
+        test: /\.js$/,
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+        ],
+      },
+      {
         test: /\.jsx?$/, // Transform all .js and .jsx files required somewhere with Babel
         exclude: /node_modules/,
         use: {
@@ -47,6 +55,12 @@ module.exports = options => ({
             },
           },
         ],
+      },
+      {
+        test: /pdf\.worker\.min\.js$/,
+        loader: 'url-loader',
+        options: { name: 'pdfWorker.[ext]', limit: 1000 },
+        type: 'javascript/auto',
       },
       {
         // Preprocess our own .css files
@@ -142,6 +156,9 @@ module.exports = options => ({
     mainFields: ['browser', 'jsnext:main', 'main'],
     alias: {
       assets: path.resolve(appPath, 'assets'),
+      components: path.resolve(appPath, 'components'),
+      utils: path.resolve(appPath, 'utils'),
+      api: path.resolve(appPath, 'api'),
     },
   },
   devtool: options.devtool,

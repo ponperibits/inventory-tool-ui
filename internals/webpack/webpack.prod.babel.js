@@ -21,7 +21,7 @@ module.exports = require('./webpack.base.babel')({
     filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].chunk.js',
   },
-
+  devtool: 'none',
   optimization: {
     minimize: true,
     minimizer: [
@@ -40,7 +40,7 @@ module.exports = require('./webpack.base.babel')({
         },
         parallel: true,
         cache: true,
-        sourceMap: true,
+        sourceMap: false,
       }),
     ],
     nodeEnv: 'production',

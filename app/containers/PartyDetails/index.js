@@ -6,16 +6,9 @@
 
 import React, { useEffect } from 'react';
 import qs from 'query-string';
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  Row,
-  Col,
-  Badge,
-  Button,
-} from 'reactstrap';
+import { Card, CardHeader, CardBody, Row, Col, Badge } from 'reactstrap';
 import Loader from 'components/Loaders';
+import GoBackHeader from 'components/GoBackHeader';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -198,24 +191,7 @@ export function ProductDetails() {
         <title>Product Details</title>
         <meta name="description" content="Description of Product Details" />
       </Helmet>
-      <Row className="mt-3">
-        <Col xs={12} className="d-flex align-items-center">
-          <Button
-            className="btn-icon-only p-0 me-2"
-            color="link"
-            type="button"
-            size="lg"
-            onClick={() => {
-              history.goBack();
-            }}
-          >
-            <span className="btn-inner--icon">
-              <i className="fas fa-long-arrow-alt-left" />
-            </span>
-          </Button>
-          <span className="fw-bold text-muted">Go Back</span>
-        </Col>
-      </Row>
+      <GoBackHeader />
       <Row className="mt-4">
         <Col xs="12" md="8">
           {isLoading ? getPartyLoading() : getPartyDetails()}

@@ -9,10 +9,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import qs from 'query-string';
 import { Helmet } from 'react-helmet';
 import { Form, FormGroup, Row, Col, Label, Button, Spinner } from 'reactstrap';
+import GoBackHeader from 'components/GoBackHeader';
 import MBInput from 'components/MBInput';
 import { useInjectReducer } from 'utils/injectReducer';
 import { CUSTOMER, SUPPLIER } from 'utils/appConstants';
-import history from 'utils/history';
 import reducer from './reducer';
 import * as operations from './actions';
 import * as selectors from './selectors';
@@ -125,24 +125,7 @@ export function PartyForm() {
         <title>Party Form</title>
         <meta name="description" content="Description of Party Form" />
       </Helmet>
-      <Row className="mt-3">
-        <Col xs={12} className="d-flex align-items-center">
-          <Button
-            className="btn-icon-only p-0 me-2"
-            color="link"
-            type="button"
-            size="lg"
-            onClick={() => {
-              history.goBack();
-            }}
-          >
-            <span className="btn-inner--icon">
-              <i className="fas fa-long-arrow-alt-left" />
-            </span>
-          </Button>
-          <span className="fw-bold text-muted">Go Back</span>
-        </Col>
-      </Row>
+      <GoBackHeader />
       <Row className="mt-3 mb-4">
         <Col xs="12">
           <h5 className="font-weight-bold">

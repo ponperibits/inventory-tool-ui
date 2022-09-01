@@ -8,6 +8,7 @@ import React, { useEffect } from 'react';
 import qs from 'query-string';
 import { Card, CardHeader, CardBody, Row, Col, Badge } from 'reactstrap';
 import Loader from 'components/Loaders';
+import GoBackHeader from 'components/GoBackHeader';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -115,21 +116,10 @@ export function ProductDetails() {
             {getProperty('noOfUnits', 0)}
           </span>
         </p>
-      </CardBody>
-      <CardBody>
-        <div className="my-1">
-          <span className="h5 text-muted">Supplier Details:</span>
-        </div>
         <p>
-          <span className="text-muted">Supplier Name: </span>
-          <span
-            aria-hidden
-            className="hover-pointer text-primary text-bold fw-bold"
-            onClick={() =>
-              history.push(`/party/view?id=${getProperty('supplierId._id')}`)
-            }
-          >
-            {getProperty('supplierId.name')}
+          <span className="text-muted">Minimum stock to be notified: </span>
+          <span className="text-primary fw-bold">
+            {getProperty('minStockWarning', 0)}
           </span>
         </p>
       </CardBody>
@@ -176,6 +166,7 @@ export function ProductDetails() {
         <title>Product Details</title>
         <meta name="description" content="Description of Product Details" />
       </Helmet>
+      <GoBackHeader />
       <Row className="mt-4">
         <Col xs="12" md="8">
           {isLoading ? getProductLoading() : getProductDetails()}

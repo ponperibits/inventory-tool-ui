@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import qs from 'query-string';
 import { Helmet } from 'react-helmet';
 import { Form, FormGroup, Row, Col, Label, Button, Spinner } from 'reactstrap';
+import GoBackHeader from 'components/GoBackHeader';
 import MBInput from 'components/MBInput';
 import MBSelect from 'components/MBSelect';
 import { SUPPORTED_CURRENCIES } from 'utils/appConstants';
@@ -121,7 +122,8 @@ export function ProductForm() {
       <Helmet>
         <title>Product Form</title>
         <meta name="description" content="Description of Product Form" />
-      </Helmet>{' '}
+      </Helmet>
+      <GoBackHeader />
       <Row className="mt-3 mb-4">
         <Col xs="12">
           <h5 className="font-weight-bold">

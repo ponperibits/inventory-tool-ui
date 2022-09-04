@@ -5,7 +5,6 @@ export default yup.object().shape({
     .number('Min Stock Warning should be a number')
     .typeError('Min Stock Warning should be a number')
     .min(0, 'Minimum stock warning must be 0 or more'),
-  currency: yup.string().required('Currency is required'),
   sellingPrice: yup
     .number('Selling Price should be a number')
     .typeError('Selling Price should be a number')

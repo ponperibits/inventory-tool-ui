@@ -16,7 +16,6 @@ import {
   CHANGE_DESCRIPTION,
   CHANGE_PRICE,
   CHANGE_SELLING_PRICE,
-  CHANGE_CURRENCY,
   CHANGE_MIN_STOCK,
   SET_PRODUCT_DETAILS,
   SHOW_LOADING,
@@ -154,11 +153,6 @@ export const changePrice = payload => ({
 
 export const changeSellingPrice = payload => ({
   type: CHANGE_SELLING_PRICE,
-  payload,
-});
-
-export const changeCurrency = payload => ({
-  type: CHANGE_CURRENCY,
   payload,
 });
 

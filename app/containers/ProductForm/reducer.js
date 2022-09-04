@@ -10,7 +10,6 @@ import {
   CHANGE_DESCRIPTION,
   CHANGE_PRICE,
   CHANGE_SELLING_PRICE,
-  CHANGE_CURRENCY,
   CHANGE_MIN_STOCK,
   SET_PRODUCT_DETAILS,
   SHOW_LOADING,
@@ -22,7 +21,6 @@ export const initialState = {
   description: '',
   price: '',
   sellingPrice: '',
-  currency: '',
   minStockWarning: '',
   isEdit: false,
   isLoading: false,
@@ -48,9 +46,6 @@ const productFormReducer = (state = initialState, action) =>
       case CHANGE_SELLING_PRICE:
         draft.sellingPrice = action.payload;
         break;
-      case CHANGE_CURRENCY:
-        draft.currency = action.payload;
-        break;
       case CHANGE_MIN_STOCK:
         draft.minStockWarning = action.payload;
         break;
@@ -59,7 +54,6 @@ const productFormReducer = (state = initialState, action) =>
         draft.description = action.payload.description;
         draft.price = action.payload.price;
         draft.sellingPrice = action.payload.sellingPrice;
-        draft.currency = action.payload.currency;
         draft.minStockWarning = action.payload.minStockWarning;
         draft.isEdit = true;
         break;

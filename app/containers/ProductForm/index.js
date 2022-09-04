@@ -11,8 +11,6 @@ import { Helmet } from 'react-helmet';
 import { Form, FormGroup, Row, Col, Label, Button, Spinner } from 'reactstrap';
 import GoBackHeader from 'components/GoBackHeader';
 import MBInput from 'components/MBInput';
-import MBSelect from 'components/MBSelect';
-import { SUPPORTED_CURRENCIES } from 'utils/appConstants';
 import { useInjectReducer } from 'utils/injectReducer';
 import reducer from './reducer';
 import * as operations from './actions';
@@ -28,7 +26,6 @@ export function ProductForm() {
     description,
     price,
     sellingPrice,
-    currency,
     minStockWarning,
     isEdit,
     isLoading,
@@ -39,7 +36,6 @@ export function ProductForm() {
     description: selectors.description(state),
     price: selectors.price(state),
     sellingPrice: selectors.sellingPrice(state),
-    currency: selectors.currency(state),
     minStockWarning: selectors.minStockWarning(state),
     isEdit: selectors.isEdit(state),
     isLoading: selectors.isLoading(state),
@@ -68,7 +64,6 @@ export function ProductForm() {
           description,
           price,
           sellingPrice,
-          currency,
           minStockWarning,
         }),
       );
@@ -79,7 +74,6 @@ export function ProductForm() {
           description,
           price,
           sellingPrice,
-          currency,
           minStockWarning,
         }),
       );
@@ -189,26 +183,6 @@ export function ProductForm() {
               error={validations}
               value={sellingPrice}
               onChange={e => dispatch(operations.changeSellingPrice(e))}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Label for="currency" sm={2}>
-            Currency
-          </Label>
-          <Col sm={6}>
-            <MBSelect
-              className="basic-multi-select w-100"
-              data={SUPPORTED_CURRENCIES.map(curr => ({
-                id: curr,
-                text: curr,
-              }))}
-              classNamePrefix="select"
-              name="currency"
-              placeholder="Select Currency"
-              value={currency}
-              error={validations}
-              onChange={e => dispatch(operations.changeCurrency(e))}
             />
           </Col>
         </FormGroup>

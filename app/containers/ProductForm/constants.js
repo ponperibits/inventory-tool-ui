@@ -15,6 +15,3 @@ export const SET_PRODUCT_DETAILS = 'app/ProductForm/SET_PRODUCT_DETAILS';
 
 export const SHOW_LOADING = 'app/ProductForm/SHOW_LOADING';
 export const VALIDATION_ERROR = 'app/ProductForm/VALIDATION_ERROR';
-
-export const SET_AVAILABLE_SUPPLIERS =
-  'app/ProductForm/SET_AVAILABLE_SUPPLIERS';

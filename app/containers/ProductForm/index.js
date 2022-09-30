@@ -49,7 +49,6 @@ export function ProductForm() {
     if (id) {
       dispatch(operations.fetchDetails(id));
     }
-    dispatch(operations.fetchAvailableSuppliers());
     return () => productFormInit();
   }, []);
 

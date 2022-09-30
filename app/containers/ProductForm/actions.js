@@ -5,10 +5,8 @@
  */
 
 import history from 'utils/history';
-import { SUPPLIER } from 'utils/appConstants';
 import { get } from 'lodash';
 import { addProduct, editProduct, getProduct } from 'api/product';
-import { getParties } from 'api/party';
 import NotificationHandler from 'components/Notifications/NotificationHandler';
 import {
   INIT,
@@ -20,24 +18,8 @@ import {
   SET_PRODUCT_DETAILS,
   SHOW_LOADING,
   VALIDATION_ERROR,
-  SET_AVAILABLE_SUPPLIERS,
 } from './constants';
 import schema from './validations';
-
-export const fetchAvailableSuppliers = () => async dispatch => {
-  try {
-    const { data } = await getParties({ type: SUPPLIER });
-    dispatch(setAvailableSuppliers(data));
-  } catch (err) {
-    NotificationHandler.open({
-      operation: 'failure',
-      message:
-        get(err, 'response.data', null) ||
-        'Something went wrong. Please try again later',
-      title: 'Unable to fetch Suppliers',
-    });
-  }
-};
 
 export const onSubmit = productDetails => async dispatch => {
   try {
@@ -112,11 +94,6 @@ export const fetchDetails = id => async dispatch => {
 
 const setProductDetails = payload => ({
   type: SET_PRODUCT_DETAILS,
-  payload,
-});
-
-const setAvailableSuppliers = payload => ({
-  type: SET_AVAILABLE_SUPPLIERS,
   payload,
 });
 

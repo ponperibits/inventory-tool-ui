@@ -17,7 +17,7 @@ import { Router } from 'react-router-dom';
 import 'sanitize.css/sanitize.css';
 
 import 'react-notification-alert/dist/animate.css';
-// import 'react-datetime/css/react-datetime.css';
+import 'react-datetime/css/react-datetime.css';
 // import 'react-perfect-scrollbar/dist/css/styles.css';
 // import '@fullcalendar/common/main.min.css';
 // import '@fullcalendar/daygrid/main.min.css';
@@ -36,6 +36,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 // Import root app
 import App from 'containers/App';
+import AlertPopup from 'components/AlertPopup';
+import AlertPopupHandler from 'components/AlertPopup/AlertPopupHandler';
 import Notifications from 'components/Notifications';
 import NotificationHandler from 'components/Notifications/NotificationHandler';
 
@@ -64,6 +66,7 @@ const render = messages => {
   ReactDOM.render(
     <Provider store={store}>
       <Notifications ref={NotificationHandler.setRef} />
+      <AlertPopup ref={AlertPopupHandler.setRef} />
       <LanguageProvider messages={messages}>
         <Router history={history}>
           <App />

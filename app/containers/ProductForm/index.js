@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /**
  *
  * ProductForm
@@ -7,6 +8,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import qs from 'query-string';
+import classnames from 'classnames';
 import { Helmet } from 'react-helmet';
 import { Form, FormGroup, Row, Col, Label, Button, Spinner } from 'reactstrap';
 import GoBackHeader from 'components/GoBackHeader';
@@ -16,7 +18,7 @@ import reducer from './reducer';
 import * as operations from './actions';
 import * as selectors from './selectors';
 
-export function ProductForm() {
+export function ProductForm({ isPopup = false, onConfirm = () => {} }) {
   useInjectReducer({ key: 'productForm', reducer });
   const dispatch = useDispatch();
   const productFormInit = operations.productFormInit(dispatch);
@@ -68,13 +70,17 @@ export function ProductForm() {
       );
     } else {
       dispatch(
-        operations.onSubmit({
-          name,
-          description,
-          price,
-          sellingPrice,
-          minStockWarning,
-        }),
+        operations.onSubmit(
+          {
+            name,
+            description,
+            price,
+            sellingPrice,
+            minStockWarning,
+          },
+          isPopup,
+          onConfirm,
+        ),
       );
     }
   };
@@ -111,12 +117,16 @@ export function ProductForm() {
   };
 
   return (
-    <div className="productForm mx-3 mx-md-4 ml-lg-7">
+    <div
+      className={classnames('productForm', {
+        'mx-3 mx-md-4 ml-lg-7': !isPopup,
+      })}
+    >
       <Helmet>
         <title>Product Form</title>
         <meta name="description" content="Description of Product Form" />
       </Helmet>
-      <GoBackHeader />
+      {!isPopup && <GoBackHeader />}
       <Row className="mt-3 mb-4">
         <Col xs="12">
           <h5 className="font-weight-bold">
@@ -126,10 +136,10 @@ export function ProductForm() {
       </Row>
       <Form role="form" onSubmit={e => onSubmit(e)}>
         <FormGroup row>
-          <Label for="name" sm={2}>
+          <Label for="name" sm={isPopup ? 4 : 2}>
             Name
           </Label>
-          <Col sm={6}>
+          <Col sm={isPopup ? 8 : 6}>
             <MBInput
               type="text"
               name="name"
@@ -141,10 +151,10 @@ export function ProductForm() {
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Label for="description" sm={2}>
+          <Label for="description" sm={isPopup ? 4 : 2}>
             Description
           </Label>
-          <Col sm={6}>
+          <Col sm={isPopup ? 8 : 6}>
             <MBInput
               type="textarea"
               name="description"
@@ -156,10 +166,10 @@ export function ProductForm() {
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Label for="price" sm={2}>
+          <Label for="price" sm={isPopup ? 4 : 2}>
             Price
           </Label>
-          <Col sm={6}>
+          <Col sm={isPopup ? 8 : 6}>
             <MBInput
               type="number"
               name="price"
@@ -171,10 +181,10 @@ export function ProductForm() {
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Label for="sellingPrice" sm={2}>
+          <Label for="sellingPrice" sm={isPopup ? 4 : 2}>
             Selling Price
           </Label>
-          <Col sm={6}>
+          <Col sm={isPopup ? 8 : 6}>
             <MBInput
               type="number"
               name="sellingPrice"
@@ -186,10 +196,10 @@ export function ProductForm() {
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Label for="minStockWarning" sm={2}>
+          <Label for="minStockWarning" sm={isPopup ? 4 : 2}>
             Minimum Stock to Notify
           </Label>
-          <Col sm={6}>
+          <Col sm={isPopup ? 8 : 6}>
             <MBInput
               type="number"
               name="minStockWarning"

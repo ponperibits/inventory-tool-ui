@@ -11,8 +11,8 @@ import {
 } from './constants';
 
 const initialState = {
-  email: '',
-  password: '',
+  email: 'monishmonib@gmail.com',
+  password: '123456789',
   isLoading: false,
   errorMessage: null,
   validationError: null,

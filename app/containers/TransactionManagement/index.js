@@ -166,7 +166,7 @@ export function TransactionManagement() {
 
       <Table
         bootstrap4
-        remote
+        striped
         search={false}
         bordered={false}
         keyField="_id"
@@ -188,6 +188,7 @@ export function TransactionManagement() {
             formatter: (cell, { _id }) => (
               <>
                 <Button
+                  disabled
                   title="Edit Transaction"
                   type="button"
                   color="primary"

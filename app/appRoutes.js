@@ -12,6 +12,7 @@ import ProductManagement from 'containers/ProductManagement';
 import ProductForm from 'containers/ProductForm';
 
 import TransactionManagement from 'containers/TransactionManagement';
+import TransactionForm from 'containers/TransactionForm';
 
 const routes = {
   home: [
@@ -58,6 +59,13 @@ const routes = {
       name: 'Product',
       icon: 'ni ni-shop',
       component: ProductManagement,
+      layout: '',
+    },
+    {
+      path: '/transaction/add',
+      name: 'Transaction Form',
+      icon: 'ni ni-shop',
+      component: TransactionForm,
       layout: '',
     },
     {

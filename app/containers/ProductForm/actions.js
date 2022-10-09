@@ -21,7 +21,7 @@ import {
 } from './constants';
 import schema from './validations';
 
-export const onSubmit = productDetails => async dispatch => {
+export const onSubmit = (productDetails, isPopup, next) => async dispatch => {
   try {
     const isValid = schema.isValidSync(productDetails);
     if (!isValid) {
@@ -36,7 +36,12 @@ export const onSubmit = productDetails => async dispatch => {
       operation: 'success',
       title: 'Product added successfully',
     });
-    history.push('/product');
+
+    if (isPopup) {
+      next();
+    } else {
+      history.push('/product');
+    }
   } catch (err) {
     dispatch(showLoading(false));
     NotificationHandler.open({

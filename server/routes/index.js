@@ -9,6 +9,8 @@ const productRoutes = require('./product.routes');
 const transactionRoutes = require('./transaction.routes');
 const recordRoutes = require('./record.routes');
 
+const commonDetailRoutes = require('./commonDetail.routes');
+
 // const storage = multer.memoryStorage({
 //   // eslint-disable-next-line func-names
 //   destination: function(req, file, callback) {
@@ -26,5 +28,7 @@ router.use('/party', session.protectSession, partyRoutes);
 router.use('/product', session.protectSession, productRoutes);
 router.use('/transaction', session.protectSession, transactionRoutes);
 router.use('/record', session.protectSession, recordRoutes);
+
+router.use('/commonDetail', session.protectSession, commonDetailRoutes);
 
 module.exports = router;

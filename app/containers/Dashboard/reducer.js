@@ -4,15 +4,22 @@
  *
  */
 import produce from 'immer';
-import { DEFAULT_ACTION } from './constants';
+import { SET_DASHBOARD_STATS } from './constants';
 
-export const initialState = {};
+export const initialState = {
+  dashboardStats: {
+    noOfSuppliers: 0,
+    noOfCustomers: 0,
+    noOfProducts: 0,
+  },
+};
 
 /* eslint-disable default-case, no-param-reassign */
 const dashboardReducer = (state = initialState, action) =>
-  produce(state, (/* draft */) => {
+  produce(state, draft => {
     switch (action.type) {
-      case DEFAULT_ACTION:
+      case SET_DASHBOARD_STATS:
+        draft.dashboardStats = action.payload;
         break;
     }
   });

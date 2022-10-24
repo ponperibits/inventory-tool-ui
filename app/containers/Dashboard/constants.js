@@ -4,4 +4,4 @@
  *
  */
 
-export const DEFAULT_ACTION = 'app/Dashboard/DEFAULT_ACTION';
+export const SET_DASHBOARD_STATS = 'app/Dashboard/SET_DASHBOARD_STATS';

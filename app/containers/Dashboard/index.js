@@ -4,19 +4,31 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
+import { useSelector, useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { Row, Col, Card, CardBody } from 'reactstrap';
 import { useInjectReducer } from 'utils/injectReducer';
+import { get } from 'lodash';
 import history from 'utils/history';
 import reducer from './reducer';
+import * as operations from './actions';
 import * as selectors from './selectors';
 
 export default function Dashboard() {
   useInjectReducer({ key: 'dashboard', reducer });
+  const dispatch = useDispatch();
   const [cookie] = useCookies(['user']);
 
+  const dashboardStats = useSelector(selectors.dashboardStats);
+
+  const getStat = (stat, defaultValue = 0) =>
+    get(dashboardStats, stat) || defaultValue;
+
+  useEffect(() => {
+    dispatch(operations.fetchDashboardStats());
+  }, []);
   return (
     <div className="dashboard mx-3 mx-md-4 ml-lg-7">
       <Helmet>
@@ -45,7 +57,9 @@ export default function Dashboard() {
                       <p className="text-sm mb-0 text-uppercase font-weight-bold">
                         Suppliers
                       </p>
-                      <h3 className="font-weight-bold text-primary">{500}</h3>
+                      <h3 className="font-weight-bold text-primary">
+                        {getStat('noOfSuppliers')}
+                      </h3>
                     </Col>
                     <Col xs="4" className="text-end">
                       <div className="icon icon-shape bg-gradient-danger shadow-primary text-center text-secondary rounded-circle">
@@ -71,7 +85,9 @@ export default function Dashboard() {
                       <p className="text-sm mb-0 text-uppercase font-weight-bold">
                         Customers
                       </p>
-                      <h3 className="font-weight-bold text-primary">{500}</h3>
+                      <h3 className="font-weight-bold text-primary">
+                        {getStat('noOfCustomers')}
+                      </h3>
                     </Col>
                     <Col xs="4" className="text-end">
                       <div className="icon icon-shape bg-gradient-danger shadow-primary text-center text-secondary rounded-circle">
@@ -97,7 +113,9 @@ export default function Dashboard() {
                       <p className="text-sm mb-0 text-uppercase font-weight-bold">
                         Products
                       </p>
-                      <h3 className="font-weight-bold text-primary">{500}</h3>
+                      <h3 className="font-weight-bold text-primary">
+                        {getStat('noOfProducts')}
+                      </h3>
                     </Col>
                     <Col xs="4" className="text-end">
                       <div className="icon icon-shape bg-gradient-danger shadow-primary text-center text-secondary rounded-circle">

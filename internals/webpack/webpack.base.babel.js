@@ -153,7 +153,7 @@ module.exports = options => ({
   resolve: {
     modules: ['node_modules', 'app'],
     extensions: ['.js', '.jsx', '.react.js'],
-    mainFields: ['browser', 'jsnext:main', 'main'],
+    mainFields: ['browser', 'main', 'jsnext:main'],
     alias: {
       assets: path.resolve(appPath, 'assets'),
       components: path.resolve(appPath, 'components'),

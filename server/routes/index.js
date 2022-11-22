@@ -2,6 +2,12 @@
 const express = require('express');
 // const multer = require('multer');
 const session = require('../middlewares/sessionManager');
+const authRoutes = require('./auth.routes');
+
+const partyRoutes = require('./party.routes');
+const productRoutes = require('./product.routes');
+const transactionRoutes = require('./transaction.routes');
+const recordRoutes = require('./record.routes');
 
 // const storage = multer.memoryStorage({
 //   // eslint-disable-next-line func-names
@@ -13,5 +19,12 @@ const session = require('../middlewares/sessionManager');
 // router.use('/file', upload, session.protected, fileRoutes);
 
 const router = express.Router();
+
+router.use('/auth', authRoutes);
+
+router.use('/party', session.protectSession, partyRoutes);
+router.use('/product', session.protectSession, productRoutes);
+router.use('/transaction', session.protectSession, transactionRoutes);
+router.use('/record', session.protectSession, recordRoutes);
 
 module.exports = router;

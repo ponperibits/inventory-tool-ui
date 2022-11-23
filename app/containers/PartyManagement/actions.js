@@ -1,6 +1,6 @@
 /*
  *
- * Clients actions
+ * PartyManagement actions
  *
  */
 
@@ -15,11 +15,6 @@ export const fetchParties = () => async dispatch => {
     dispatch(setPartyList());
   }
 };
-
-// const setLoading = payload => ({
-//   type: CLIENT_PAGE_SET_LOADING,
-//   payload,
-// });
 
 const setPartyList = (payload = []) => ({
   type: SET_PARTY_LIST,

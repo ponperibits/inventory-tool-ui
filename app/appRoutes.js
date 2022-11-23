@@ -4,6 +4,7 @@ import Register from 'containers/Register';
 import Dashboard from 'containers/Dashboard';
 
 import PartyManagement from 'containers/PartyManagement';
+import ProductManagement from 'containers/ProductManagement';
 
 const routes = {
   home: [
@@ -19,6 +20,13 @@ const routes = {
       name: 'Party',
       icon: 'ni ni-shop',
       component: PartyManagement,
+      layout: '',
+    },
+    {
+      path: '/product',
+      name: 'Product',
+      icon: 'ni ni-shop',
+      component: ProductManagement,
       layout: '',
     },
   ],

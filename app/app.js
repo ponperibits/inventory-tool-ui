@@ -12,12 +12,32 @@ import '@babel/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router';
-import history from 'utils/history';
+import { Router } from 'react-router-dom';
+// import { ConnectedRouter } from 'connected-react-router';
 import 'sanitize.css/sanitize.css';
+
+import 'react-notification-alert/dist/animate.css';
+// import 'react-datetime/css/react-datetime.css';
+// import 'react-perfect-scrollbar/dist/css/styles.css';
+// import '@fullcalendar/common/main.min.css';
+// import '@fullcalendar/daygrid/main.min.css';
+import 'sweetalert2/dist/sweetalert2.css';
+// import 'select2/dist/css/select2.min.css';
+// // import "quill/dist/quill.core.css";
+// import 'react-quill/dist/quill.snow.css';
+// import '@fortawesome/fontawesome-free/css/all.min.css';
+// plugins styles downloaded
+import 'assets/vendor/nucleo/css/nucleo.css';
+import 'assets/vendor/nucleo/css/nucleo-svg.css';
+
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.css';
 
 // Import root app
 import App from 'containers/App';
+import Notifications from 'components/Notifications';
+import NotificationHandler from 'components/Notifications/NotificationHandler';
 
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
@@ -33,6 +53,8 @@ import configureStore from './configureStore';
 // Import i18n messages
 import { translationMessages } from './i18n';
 
+import history from './utils/history';
+
 // Create redux store with history
 const initialState = {};
 const store = configureStore(initialState, history);
@@ -41,10 +63,11 @@ const MOUNT_NODE = document.getElementById('app');
 const render = messages => {
   ReactDOM.render(
     <Provider store={store}>
+      <Notifications ref={NotificationHandler.setRef} />
       <LanguageProvider messages={messages}>
-        <ConnectedRouter history={history}>
+        <Router history={history}>
           <App />
-        </ConnectedRouter>
+        </Router>
       </LanguageProvider>
     </Provider>,
     MOUNT_NODE,

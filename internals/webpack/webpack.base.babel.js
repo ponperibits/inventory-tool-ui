@@ -4,7 +4,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
-
+const appPath = path.resolve(__dirname, '../../app');
 module.exports = options => ({
   mode: options.mode,
   entry: options.entry,
@@ -26,6 +26,27 @@ module.exports = options => ({
           loader: 'babel-loader',
           options: options.babelQuery,
         },
+      },
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+        ],
       },
       {
         // Preprocess our own .css files
@@ -119,6 +140,9 @@ module.exports = options => ({
     modules: ['node_modules', 'app'],
     extensions: ['.js', '.jsx', '.react.js'],
     mainFields: ['browser', 'jsnext:main', 'main'],
+    alias: {
+      assets: path.resolve(appPath, 'assets'),
+    },
   },
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window

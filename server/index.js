@@ -41,6 +41,7 @@ app.use(
   }),
 );
 app.use(cookieParser());
+app.use('/assets', express.static('app/assets', { redirect: false }));
 app.use('/api', routes);
 // In production we need to pass these values in instead of relying on webpack
 setup(app, {

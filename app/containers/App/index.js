@@ -8,19 +8,27 @@
  */
 
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-
-import HomePage from 'containers/HomePage/Loadable';
-import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import { Helmet } from 'react-helmet';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import ProtectedRoute from '../ProtectedPage';
+import AuthLayout from '../../layouts/Auth';
+import HomeLayout from '../../layouts/Home';
+import Logout from '../Logout';
 
 import GlobalStyle from '../../global-styles';
 
 export default function App() {
   return (
-    <div>
+    <div className="app w-100 h-100">
+      <Helmet titleTemplate="%s - Inventory Tool" defaultTitle="Inventory Tool">
+        <meta name="description" content="Inventory Tool application" />
+      </Helmet>
+
       <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route component={NotFoundPage} />
+        <Route path="/auth" render={props => <AuthLayout {...props} />} />
+        <Route exact path="/logout" render={props => <Logout {...props} />} />
+        <ProtectedRoute path="/" component={HomeLayout} />
+        <Redirect from="*" to="/" />
       </Switch>
       <GlobalStyle />
     </div>

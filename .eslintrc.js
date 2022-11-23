@@ -62,6 +62,7 @@ module.exports = {
     'no-console': 1,
     'no-unused-vars': 2,
     'no-return-await': 0,
+    'consistent-return': 0,
     'no-param-reassign': 0,
     'no-use-before-define': 0,
     'prefer-template': 2,

@@ -3,8 +3,10 @@ import Register from 'containers/Register';
 
 import Dashboard from 'containers/Dashboard';
 
+import PartyDetails from 'containers/PartyDetails';
 import PartyManagement from 'containers/PartyManagement';
 import PartyForm from 'containers/PartyForm';
+import ProductDetails from 'containers/ProductDetails';
 import ProductManagement from 'containers/ProductManagement';
 import ProductForm from 'containers/ProductForm';
 
@@ -19,8 +21,14 @@ const routes = {
     },
     {
       path: '/party/add',
-      name: 'Party',
+      name: 'Party Form',
       component: PartyForm,
+      layout: '',
+    },
+    {
+      path: '/party/view',
+      name: 'Party Details',
+      component: PartyDetails,
       layout: '',
     },
     {
@@ -31,8 +39,14 @@ const routes = {
       layout: '',
     },
     {
+      path: '/product/view',
+      name: 'Product Details',
+      component: ProductDetails,
+      layout: '',
+    },
+    {
       path: '/product/add',
-      name: 'Product',
+      name: 'Product Form',
       component: ProductForm,
       layout: '',
     },

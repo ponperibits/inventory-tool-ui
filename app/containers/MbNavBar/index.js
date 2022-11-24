@@ -84,9 +84,9 @@ export function MbNavBar() {
                   <span className="mx-2 text-primary font-weight-bold">
                     {selectors.getName(cookie)}
                   </span>
-                  <a className="avatar avatar-sm rounded-circle" href="#pablo">
+                  {/* <a className="avatar avatar-sm rounded-circle" href="#pablo">
                     <i className="ni ni-circle-08 text-primary text-xl pt-1" />
-                  </a>
+                  </a> */}
                 </DropdownToggle>
                 <DropdownMenu
                   className="dropdown-menu-sm text-sm py-0 overflow-hidden"

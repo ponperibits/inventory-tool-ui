@@ -54,7 +54,7 @@ function Login() {
         <Button type="button" color="primary" className="btn-icon" disabled>
           <span className="btn-inner-icon">
             <Spinner size="sm" className="mr-2" />
-          </span>
+          </span>{' '}
           <span className="btn-inner-text">Login</span>
         </Button>
       );

@@ -29,16 +29,47 @@ export function PartyManagement() {
     parties.map(({ _id, name, phone, type, gstNumber, address }) => (
       <React.Fragment key={_id}>
         <tr>
-          <td>{name}</td>
+          <td
+            className="hover-pointer text-primary"
+            onClick={() => history.push(`/party/view?id=${_id}`)}
+            aria-hidden="true"
+          >
+            {name}
+          </td>
           <td>{phone}</td>
           <td>
             <Badge color={type === SUPPLIER ? 'danger' : 'success'}>
               {type}
             </Badge>
           </td>
-          <td>{gstNumber}</td>
-          <td>{address}</td>
-          <td>-</td>
+          <td>{gstNumber || '-'}</td>
+          <td>{address || '-'}</td>
+          <td>
+            <Button
+              title="Edit Pary"
+              type="button"
+              color="primary"
+              size="sm"
+              className="btn-sm"
+              onClick={() => history.push(`/party/add?id=${_id}`)}
+            >
+              <span className="btn-inner--icon">
+                <i className="fas fa-edit" />
+              </span>
+            </Button>
+            <Button
+              title="View Pary"
+              type="button"
+              color="info"
+              size="sm"
+              className="btn-sm ms-1 text-white"
+              onClick={() => history.push(`/party/view?id=${_id}`)}
+            >
+              <span className="btn-inner--icon">
+                <i className="fas fa-eye" />
+              </span>
+            </Button>
+          </td>
         </tr>
       </React.Fragment>
     ));
@@ -58,7 +89,7 @@ export function PartyManagement() {
             color="primary"
             className="btn-icon btn-3"
             type="button"
-            onClick={() => history.push('/add-party')}
+            onClick={() => history.push('/party/add')}
           >
             <span className="btn-inner--icon">
               <i className="fas fa-plus" />

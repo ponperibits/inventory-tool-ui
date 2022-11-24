@@ -26,22 +26,62 @@ export function ProductManagement() {
   }, []);
 
   const getPartiesData = () =>
-    parties.map(({ _id, name, price, sellingPrice, noOfUnits, supplierId }) => (
-      <React.Fragment key={_id}>
-        <tr
-          className={classNames({
-            'table-danger': noOfUnits < 5,
-          })}
-        >
-          <td>{name}</td>
-          <td>{price}</td>
-          <td>{sellingPrice}</td>
-          <td>{noOfUnits}</td>
-          <td>{supplierId}</td>
-          <td>-</td>
-        </tr>
-      </React.Fragment>
-    ));
+    parties.map(
+      ({
+        _id,
+        name,
+        price,
+        sellingPrice,
+        noOfUnits,
+        supplierId: { name: supplierName },
+      }) => (
+        <React.Fragment key={_id}>
+          <tr
+            className={classNames({
+              'table-danger': noOfUnits < 5,
+            })}
+          >
+            <td
+              className="hover-pointer text-primary"
+              onClick={() => history.push(`/product/view?id=${_id}`)}
+              aria-hidden="true"
+            >
+              {name}
+            </td>
+            <td>{price}</td>
+            <td>{sellingPrice}</td>
+            <td>{noOfUnits}</td>
+            <td>{supplierName}</td>
+            <td>
+              <Button
+                title="Edit Pary"
+                type="button"
+                color="primary"
+                size="sm"
+                className="btn-sm"
+                onClick={() => history.push(`/product/add?id=${_id}`)}
+              >
+                <span className="btn-inner--icon">
+                  <i className="fas fa-edit" />
+                </span>
+              </Button>
+              <Button
+                title="View Pary"
+                type="button"
+                color="info"
+                size="sm"
+                className="btn-sm ms-1 text-white"
+                onClick={() => history.push(`/product/view?id=${_id}`)}
+              >
+                <span className="btn-inner--icon">
+                  <i className="fas fa-eye" />
+                </span>
+              </Button>
+            </td>
+          </tr>
+        </React.Fragment>
+      ),
+    );
 
   return (
     <div className="productManagement  mx-3 mx-md-4 ml-lg-7">
@@ -58,7 +98,7 @@ export function ProductManagement() {
             color="primary"
             className="btn-icon btn-3"
             type="button"
-            onClick={() => history.push('/add-product')}
+            onClick={() => history.push('/product/add')}
           >
             <span className="btn-inner--icon">
               <i className="fas fa-plus" />

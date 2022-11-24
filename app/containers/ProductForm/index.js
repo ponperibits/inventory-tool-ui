@@ -1,6 +1,6 @@
 /**
  *
- * PartyForm
+ * ProductForm
  *
  */
 
@@ -10,37 +10,40 @@ import qs from 'query-string';
 import { Helmet } from 'react-helmet';
 import { Form, FormGroup, Row, Col, Label, Button, Spinner } from 'reactstrap';
 import MBInput from 'components/MBInput';
+import MBSelect from 'components/MBSelect';
+import { SUPPORTED_CURRENCIES } from 'utils/appConstants';
 import { useInjectReducer } from 'utils/injectReducer';
-import { CUSTOMER, SUPPLIER } from 'utils/appConstants';
 import reducer from './reducer';
 import * as operations from './actions';
 import * as selectors from './selectors';
 
-export function PartyForm() {
-  useInjectReducer({ key: 'partyForm', reducer });
+export function ProductForm() {
+  useInjectReducer({ key: 'productForm', reducer });
   const dispatch = useDispatch();
-  const partyFormInit = operations.partyFormInit(dispatch);
+  const productFormInit = operations.productFormInit(dispatch);
 
   const {
     name,
-    phone,
-    type,
-    gstNumber,
-    panNumber,
-    category,
-    address,
+    description,
+    price,
+    sellingPrice,
+    currency,
+    noOfUnits,
+    supplierId,
+    availableSuppliers,
     isEdit,
     isLoading,
     errorMessage,
     validations,
   } = useSelector(state => ({
     name: selectors.name(state),
-    phone: selectors.phone(state),
-    type: selectors.type(state),
-    gstNumber: selectors.gstNumber(state),
-    panNumber: selectors.panNumber(state),
-    category: selectors.category(state),
-    address: selectors.address(state),
+    description: selectors.description(state),
+    price: selectors.price(state),
+    sellingPrice: selectors.sellingPrice(state),
+    currency: selectors.currency(state),
+    noOfUnits: selectors.noOfUnits(state),
+    supplierId: selectors.supplierId(state),
+    availableSuppliers: selectors.availableSuppliers(state),
     isEdit: selectors.isEdit(state),
     isLoading: selectors.isLoading(state),
     errorMessage: selectors.errorMessage(state),
@@ -53,7 +56,8 @@ export function PartyForm() {
     if (id) {
       dispatch(operations.fetchDetails(id));
     }
-    return () => partyFormInit();
+    dispatch(operations.fetchAvailableSuppliers());
+    return () => productFormInit();
   }, []);
 
   const onSubmit = e => {
@@ -64,24 +68,24 @@ export function PartyForm() {
       dispatch(
         operations.onEdit(id, {
           name,
-          phone,
-          type,
-          gstNumber,
-          panNumber,
-          category,
-          address,
+          description,
+          price,
+          sellingPrice,
+          currency,
+          noOfUnits,
+          supplierId,
         }),
       );
     } else {
       dispatch(
         operations.onSubmit({
           name,
-          phone,
-          type,
-          gstNumber,
-          panNumber,
-          category,
-          address,
+          description,
+          price,
+          sellingPrice,
+          currency,
+          noOfUnits,
+          supplierId,
         }),
       );
     }
@@ -95,13 +99,13 @@ export function PartyForm() {
             <Spinner size="sm" className="mr-2" />
           </span>{' '}
           <span className="btn-inner-text">
-            {isEdit ? 'Save / Edit Party' : 'Add Party'}
+            {isEdit ? 'Save / Edit Product' : 'Add Product'}
           </span>
         </Button>
       );
     return (
       <Button type="button" color="primary" onClick={e => onSubmit(e)}>
-        {isEdit ? 'Save / Edit Party' : 'Add Party'}
+        {isEdit ? 'Save / Edit Product' : 'Add Product'}
       </Button>
     );
   };
@@ -119,15 +123,15 @@ export function PartyForm() {
   };
 
   return (
-    <div className="partyForm mx-3 mx-md-4 ml-lg-7">
+    <div className="productForm mx-3 mx-md-4 ml-lg-7">
       <Helmet>
-        <title>Party Form</title>
-        <meta name="description" content="Description of Party Form" />
-      </Helmet>
+        <title>Product Form</title>
+        <meta name="description" content="Description of Product Form" />
+      </Helmet>{' '}
       <Row className="mt-3 mb-4">
         <Col xs="12">
           <h5 className="font-weight-bold">
-            {isEdit ? 'Edit Party' : 'Add a Party'}
+            {isEdit ? 'Edit Product' : 'Add a Product'}
           </h5>
         </Col>
       </Row>
@@ -140,7 +144,7 @@ export function PartyForm() {
             <MBInput
               type="text"
               name="name"
-              placeholder="John Doe"
+              placeholder="Product Name"
               error={validations}
               value={name}
               onChange={e => dispatch(operations.changeName(e))}
@@ -148,94 +152,105 @@ export function PartyForm() {
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Label for="phone" sm={2}>
-            Phone
-          </Label>
-          <Col sm={6}>
-            <MBInput
-              type="text"
-              name="phone"
-              placeholder="1234567890"
-              error={validations}
-              value={phone}
-              onChange={e => dispatch(operations.changePhone(e))}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Label for="type" sm={2}>
-            Type
-          </Label>
-          <Col sm={6}>
-            {[SUPPLIER, CUSTOMER].map(item => (
-              <Button
-                className="ms-1"
-                color={item === type ? 'primary' : 'outline-primary'}
-                key={item}
-                onClick={() => dispatch(operations.changeType(item))}
-              >
-                {item}
-              </Button>
-            ))}
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Label for="gstNumber" sm={2}>
-            GST Number
-          </Label>
-          <Col sm={6}>
-            <MBInput
-              type="text"
-              name="gstNumber"
-              placeholder="GST Number"
-              error={validations}
-              value={gstNumber}
-              onChange={e => dispatch(operations.changeGst(e))}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Label for="panNumber" sm={2}>
-            PAN Number
-          </Label>
-          <Col sm={6}>
-            <MBInput
-              type="text"
-              name="panNumber"
-              placeholder="PAN Number"
-              error={validations}
-              value={panNumber}
-              onChange={e => dispatch(operations.changePan(e))}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Label for="category" sm={2}>
-            Category
-          </Label>
-          <Col sm={6}>
-            <MBInput
-              type="text"
-              name="category"
-              placeholder="Category"
-              error={validations}
-              value={category}
-              onChange={e => dispatch(operations.changeCategory(e))}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Label for="address" sm={2}>
-            Address
+          <Label for="description" sm={2}>
+            Description
           </Label>
           <Col sm={6}>
             <MBInput
               type="textarea"
-              name="address"
-              placeholder="Address"
+              name="description"
+              placeholder="Product Description"
               error={validations}
-              value={address}
-              onChange={e => dispatch(operations.changeAddress(e))}
+              value={description}
+              onChange={e => dispatch(operations.changeDescription(e))}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Label for="price" sm={2}>
+            Price
+          </Label>
+          <Col sm={6}>
+            <MBInput
+              type="number"
+              name="price"
+              placeholder="Product Price"
+              error={validations}
+              value={price}
+              onChange={e => dispatch(operations.changePrice(e))}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Label for="sellingPrice" sm={2}>
+            Selling Price
+          </Label>
+          <Col sm={6}>
+            <MBInput
+              type="number"
+              name="sellingPrice"
+              placeholder="Product Selling Price"
+              error={validations}
+              value={sellingPrice}
+              onChange={e => dispatch(operations.changeSellingPrice(e))}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Label for="currency" sm={2}>
+            Currency
+          </Label>
+          <Col sm={6}>
+            <MBSelect
+              className="basic-multi-select w-100"
+              data={SUPPORTED_CURRENCIES.map(curr => ({
+                id: curr,
+                text: curr,
+              }))}
+              classNamePrefix="select"
+              name="currency"
+              placeholder="Select Currency"
+              value={currency}
+              error={validations}
+              onChange={e => dispatch(operations.changeCurrency(e))}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Label for="noOfUnits" sm={2}>
+            No of Units
+          </Label>
+          <Col sm={6}>
+            <MBInput
+              type="number"
+              name="noOfUnits"
+              placeholder="Product No of Units"
+              error={validations}
+              value={noOfUnits}
+              onChange={e => dispatch(operations.changeNoOfUnits(e))}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Label for="supplierId" sm={2}>
+            Supplier
+          </Label>
+          <Col sm={6}>
+            <MBSelect
+              className="basic-multi-select w-100"
+              data={availableSuppliers.map(({ name: supplierName, _id }) => ({
+                id: _id,
+                text: supplierName,
+              }))}
+              classNamePrefix="select"
+              placeholder="Select Supplier"
+              value={supplierId}
+              error={validations}
+              name="supplierId"
+              onChange={e => dispatch(operations.changeSupplier(e))}
+              getOptionLabel={option => option.name}
+              // eslint-disable-next-line no-underscore-dangle
+              getOptionValue={option => option._id}
             />
           </Col>
         </FormGroup>
@@ -248,4 +263,4 @@ export function PartyForm() {
   );
 }
 
-export default PartyForm;
+export default ProductForm;

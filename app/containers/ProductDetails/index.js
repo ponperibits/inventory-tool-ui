@@ -138,7 +138,7 @@ export function ProductDetails() {
 
   const getProductHistory = () =>
     productHistory.map(
-      ({ transactionDate, supplierId, customerId, noOfUnits }) => (
+      ({ transactionDate, supplierId, customerId, noOfUnits }, index) => (
         <>
           <div className="d-flex justify-content-between">
             <div className="d-flex align-items-center">
@@ -165,7 +165,7 @@ export function ProductDetails() {
               </span>
             </div>
           </div>
-          <hr />
+          {index + 1 !== productHistory.length && <hr />}
         </>
       ),
     );

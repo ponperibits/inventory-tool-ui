@@ -19,14 +19,14 @@ export function ProductManagement() {
   useInjectReducer({ key: 'productManagement', reducer });
   const dispatch = useDispatch();
 
-  const parties = useSelector(selectors.products);
+  const products = useSelector(selectors.products);
 
   useEffect(() => {
     dispatch(operations.fetchProducts());
   }, []);
 
-  const getPartiesData = () =>
-    parties.map(
+  const getProductsData = () =>
+    products.map(
       ({
         _id,
         name,
@@ -54,7 +54,7 @@ export function ProductManagement() {
             <td>{supplierName}</td>
             <td>
               <Button
-                title="Edit Pary"
+                title="Edit Party"
                 type="button"
                 color="primary"
                 size="sm"
@@ -66,7 +66,7 @@ export function ProductManagement() {
                 </span>
               </Button>
               <Button
-                title="View Pary"
+                title="View Party"
                 type="button"
                 color="info"
                 size="sm"
@@ -84,7 +84,7 @@ export function ProductManagement() {
     );
 
   return (
-    <div className="productManagement  mx-3 mx-md-4 ml-lg-7">
+    <div className="productManagement mx-3 mx-md-4 ml-lg-7">
       <Helmet>
         <title>Product Management</title>
         <meta name="description" content="Description of Product Management" />
@@ -120,7 +120,7 @@ export function ProductManagement() {
               <th scope="col">Actions</th>
             </tr>
           </thead>
-          <tbody>{getPartiesData()}</tbody>
+          <tbody>{getProductsData()}</tbody>
         </Table>
       </div>
     </div>

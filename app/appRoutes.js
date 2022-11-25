@@ -6,9 +6,12 @@ import Dashboard from 'containers/Dashboard';
 import PartyDetails from 'containers/PartyDetails';
 import PartyManagement from 'containers/PartyManagement';
 import PartyForm from 'containers/PartyForm';
+
 import ProductDetails from 'containers/ProductDetails';
 import ProductManagement from 'containers/ProductManagement';
 import ProductForm from 'containers/ProductForm';
+
+import TransactionManagement from 'containers/TransactionManagement';
 
 const routes = {
   home: [
@@ -55,6 +58,13 @@ const routes = {
       name: 'Product',
       icon: 'ni ni-shop',
       component: ProductManagement,
+      layout: '',
+    },
+    {
+      path: '/transaction',
+      name: 'Transaction',
+      icon: 'ni ni-shop',
+      component: TransactionManagement,
       layout: '',
     },
   ],

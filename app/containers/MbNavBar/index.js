@@ -69,6 +69,15 @@ export function MbNavBar() {
                   Transactions
                 </NavLink>
               </NavItem>
+              <NavItem>
+                <NavLink
+                  active={window.location.pathname.startsWith('/expense')}
+                  onClick={() => history.push('/expense')}
+                  href="#"
+                >
+                  Expenses
+                </NavLink>
+              </NavItem>
             </Nav>
             <Nav
               className="align-items-center justify-content-end w-100"

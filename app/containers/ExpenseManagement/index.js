@@ -8,6 +8,7 @@ import React, { useEffect } from 'react';
 import {
   Row,
   Col,
+  Badge,
   Button,
   Pagination,
   PaginationItem,
@@ -18,6 +19,7 @@ import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 import { useInjectReducer } from 'utils/injectReducer';
 import history from 'utils/history';
+import { EXPENSE } from 'utils/appConstants';
 import { parseDate } from 'utils/dateTimeHelpers';
 import reducer from './reducer';
 import * as operations from './actions';
@@ -140,20 +142,21 @@ export function ExpenseManagement() {
           {
             text: 'Transaction Date',
             dataField: 'transactionDate',
-            formatter: (cell, { _id }) => (
-              <span
-                className="text-primary hover-pointer"
-                onClick={() => history.push(`/expense/view?id=${_id}`)}
-                aria-hidden="true"
-              >
-                {parseDate(cell)}
-              </span>
-            ),
+            formatter: cell => parseDate(cell),
           },
           {
             text: 'Title',
             dataField: 'title',
             formatter: cell => cell || '-',
+          },
+          {
+            text: 'Type',
+            dataField: 'type',
+            formatter: cell => (
+              <Badge color={cell === EXPENSE ? 'danger' : 'success'}>
+                {cell}
+              </Badge>
+            ),
           },
           { text: 'Amount', dataField: 'amount' },
           {
@@ -165,32 +168,18 @@ export function ExpenseManagement() {
             text: 'Actions',
             dummyField: true,
             formatter: (cell, { _id }) => (
-              <>
-                <Button
-                  title="Edit Expense"
-                  type="button"
-                  color="primary"
-                  size="sm"
-                  className="btn-sm"
-                  onClick={() => history.push(`/expense/add?id=${_id}`)}
-                >
-                  <span className="btn-inner--icon">
-                    <i className="fas fa-edit" />
-                  </span>
-                </Button>
-                <Button
-                  title="View Expense"
-                  type="button"
-                  color="info"
-                  size="sm"
-                  className="btn-sm ms-1 text-white"
-                  onClick={() => history.push(`/expense/view?id=${_id}`)}
-                >
-                  <span className="btn-inner--icon">
-                    <i className="fas fa-eye" />
-                  </span>
-                </Button>
-              </>
+              <Button
+                title="Edit Expense"
+                type="button"
+                color="primary"
+                size="sm"
+                className="btn-sm"
+                onClick={() => history.push(`/expense/add?id=${_id}`)}
+              >
+                <span className="btn-inner--icon">
+                  <i className="fas fa-edit" />
+                </span>
+              </Button>
             ),
           },
         ]}

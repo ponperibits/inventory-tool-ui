@@ -15,6 +15,7 @@ import TransactionManagement from 'containers/TransactionManagement';
 import TransactionForm from 'containers/TransactionForm';
 
 import ExpenseManagement from 'containers/ExpenseManagement';
+import ExpenseForm from 'containers/ExpenseForm';
 
 import UserSettings from 'containers/UserSettings';
 
@@ -77,6 +78,13 @@ const routes = {
       name: 'Transaction',
       icon: 'ni ni-shop',
       component: TransactionManagement,
+      layout: '',
+    },
+    {
+      path: '/expense/add',
+      name: 'Expense Form',
+      icon: 'ni ni-shop',
+      component: ExpenseForm,
       layout: '',
     },
     {

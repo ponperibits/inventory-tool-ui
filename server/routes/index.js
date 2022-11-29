@@ -9,6 +9,7 @@ const partyRoutes = require('./party.routes');
 const productRoutes = require('./product.routes');
 const transactionRoutes = require('./transaction.routes');
 const recordRoutes = require('./record.routes');
+const expenseRoutes = require('./expense.routes');
 
 const commonDetailRoutes = require('./commonDetail.routes');
 
@@ -30,6 +31,7 @@ router.use('/party', session.protectSession, partyRoutes);
 router.use('/product', session.protectSession, productRoutes);
 router.use('/transaction', session.protectSession, transactionRoutes);
 router.use('/record', session.protectSession, recordRoutes);
+router.use('/expense', session.protectSession, expenseRoutes);
 
 router.use('/commonDetail', session.protectSession, commonDetailRoutes);
 

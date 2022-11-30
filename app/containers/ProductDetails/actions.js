@@ -7,7 +7,7 @@
 import NotificationHandler from 'components/Notifications/NotificationHandler';
 import { get } from 'lodash';
 import { getProduct } from 'api/product';
-import { getRecords } from 'api/record';
+import { paginateRecords } from 'api/record';
 import { INIT, SET_PRODUCT_DETAILS, SET_PRODUCT_HISTORY } from './constants';
 
 export const fetchProductDetails = id => async dispatch => {
@@ -25,9 +25,9 @@ export const fetchProductDetails = id => async dispatch => {
   }
 };
 
-export const fetchProductHistory = productId => async dispatch => {
+export const fetchProductHistory = params => async dispatch => {
   try {
-    const { data } = await getRecords({ productId });
+    const { data } = await paginateRecords(params);
     dispatch(setProductHistory(data));
   } catch (err) {
     NotificationHandler.open({

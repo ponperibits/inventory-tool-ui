@@ -10,6 +10,7 @@ export const initialState = {
   isLoading: true,
   productDetails: {},
   productHistory: [],
+  paginationDetails: {},
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -22,9 +23,15 @@ const productDetailsReducer = (state = initialState, action) =>
         draft.productDetails = action.payload;
         draft.isLoading = false;
         break;
-      case SET_PRODUCT_HISTORY:
-        draft.productHistory = action.payload;
+      case SET_PRODUCT_HISTORY: {
+        const { docs, hasNextPage, nextPage } = action.payload;
+        draft.productHistory = [...draft.productHistory, ...docs];
+        draft.paginationDetails = {
+          hasNextPage,
+          nextPage,
+        };
         break;
+      }
       default:
         break;
     }

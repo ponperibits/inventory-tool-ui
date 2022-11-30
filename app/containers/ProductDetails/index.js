@@ -6,13 +6,21 @@
 
 import React, { useEffect } from 'react';
 import qs from 'query-string';
-import { Card, CardHeader, CardBody, Row, Col, Badge } from 'reactstrap';
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  Row,
+  Col,
+  Badge,
+  Button,
+} from 'reactstrap';
 import Loader from 'components/Loaders';
 import GoBackHeader from 'components/GoBackHeader';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { useInjectReducer } from 'utils/injectReducer';
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 import history from 'utils/history';
 import { parseDateTime } from 'utils/dateTimeHelpers';
 import reducer from './reducer';
@@ -24,10 +32,16 @@ export function ProductDetails() {
   const dispatch = useDispatch();
   const productDetailsInit = operations.productDetailsInit(dispatch);
 
-  const { isLoading, productDetails, productHistory } = useSelector(state => ({
+  const {
+    isLoading,
+    productDetails,
+    productHistory,
+    paginationDetails,
+  } = useSelector(state => ({
     isLoading: selectors.isLoading(state),
     productDetails: selectors.productDetails(state),
     productHistory: selectors.productHistory(state),
+    paginationDetails: selectors.paginationDetails(state),
   }));
 
   const getProperty = (propertyName, defaultValue = '-') =>
@@ -38,7 +52,7 @@ export function ProductDetails() {
     const { id } = qs.parse(location.search);
     if (id) {
       dispatch(operations.fetchProductDetails(id));
-      dispatch(operations.fetchProductHistory(id));
+      dispatch(operations.fetchProductHistory({ productId: id, page: 1 }));
     } else {
       history.pushState('/product');
     }
@@ -127,37 +141,68 @@ export function ProductDetails() {
   );
 
   const getProductHistory = () =>
-    productHistory.map(
-      ({ transactionDate, supplierId, customerId, noOfUnits }, index) => (
-        <>
-          <div className="d-flex justify-content-between">
-            <div className="d-flex align-items-center">
-              <Badge color={supplierId ? 'danger' : 'success'} className="me-3">
-                {supplierId ? (
-                  <i className="fas fa-truck" />
-                ) : (
-                  <i className="fas fa-box" />
-                )}
-              </Badge>
-              <div className="d-flex flex-column">
-                <span className="fw-bold text-primary">
-                  {get(supplierId, 'name', null) ||
-                    get(customerId, 'name', null)}
-                </span>
-                <span className="text-muted">
-                  {supplierId ? `Purchased ${noOfUnits}` : `Sold ${noOfUnits}`}
-                </span>
+    isEmpty(productHistory) ? (
+      <div>
+        <span className="text-muted">No history found</span>
+      </div>
+    ) : (
+      <>
+        {productHistory.map(
+          ({ transactionDate, supplierId, customerId, noOfUnits }, index) => (
+            <>
+              <div className="d-flex justify-content-between">
+                <div className="d-flex align-items-center">
+                  <Badge
+                    color={supplierId ? 'danger' : 'success'}
+                    className="me-3"
+                  >
+                    {supplierId ? (
+                      <i className="fas fa-truck" />
+                    ) : (
+                      <i className="fas fa-box" />
+                    )}
+                  </Badge>
+                  <div className="d-flex flex-column">
+                    <span className="fw-bold text-primary">
+                      {get(supplierId, 'name', null) ||
+                        get(customerId, 'name', null)}
+                    </span>
+                    <span className="text-muted">
+                      {supplierId
+                        ? `Purchased ${noOfUnits}`
+                        : `Sold ${noOfUnits}`}
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <span className="text-muted">
+                    {parseDateTime(transactionDate)}
+                  </span>
+                </div>
               </div>
-            </div>
-            <div>
-              <span className="text-muted">
-                {parseDateTime(transactionDate)}
-              </span>
-            </div>
-          </div>
-          {index + 1 !== productHistory.length && <hr />}
-        </>
-      ),
+              {index + 1 !== productHistory.length && <hr />}
+            </>
+          ),
+        )}
+        {paginationDetails && paginationDetails.hasNextPage && (
+          <Row>
+            <Button
+              size="sm"
+              color="link"
+              onClick={() =>
+                dispatch(
+                  operations.fetchProductHistory({
+                    productId: get(productDetails, '_id'),
+                    page: paginationDetails.nextPage,
+                  }),
+                )
+              }
+            >
+              See More
+            </Button>
+          </Row>
+        )}
+      </>
     );
 
   return (

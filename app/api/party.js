@@ -7,6 +7,13 @@ export const getParties = async params =>
     params,
   });
 
+export const paginateParties = async params =>
+  await Request({
+    url: '/api/party/paginate',
+    method: 'GET',
+    params,
+  });
+
 export const getParty = async id =>
   await Request({
     url: `/api/party/${id}`,

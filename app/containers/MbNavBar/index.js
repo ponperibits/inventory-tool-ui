@@ -15,8 +15,7 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  ListGroupItem,
-  ListGroup,
+  DropdownItem,
 } from 'reactstrap';
 import { useCookies } from 'react-cookie';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -91,15 +90,14 @@ export function MbNavBar() {
                 <DropdownMenu
                   className="dropdown-menu-sm text-sm py-0 overflow-hidden"
                   end
+                  tog
                 >
-                  <ListGroup flush>
-                    <ListGroupItem
-                      className="px-2 py-2 hover-pointer"
-                      onClick={() => history.push('/logout')}
-                    >
-                      Logout
-                    </ListGroupItem>
-                  </ListGroup>
+                  <DropdownItem onClick={() => history.push('/settings')}>
+                    Settings
+                  </DropdownItem>
+                  <DropdownItem onClick={() => history.push('/logout')}>
+                    Logout
+                  </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
             </Nav>

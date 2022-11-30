@@ -3,6 +3,7 @@ const express = require('express');
 // const multer = require('multer');
 const session = require('../middlewares/sessionManager');
 const authRoutes = require('./auth.routes');
+const userRoutes = require('./user.routes');
 
 const partyRoutes = require('./party.routes');
 const productRoutes = require('./product.routes');
@@ -23,6 +24,7 @@ const commonDetailRoutes = require('./commonDetail.routes');
 const router = express.Router();
 
 router.use('/auth', authRoutes);
+router.use('/user', session.protectSession, userRoutes);
 
 router.use('/party', session.protectSession, partyRoutes);
 router.use('/product', session.protectSession, productRoutes);

@@ -141,6 +141,15 @@ export function PartyManagement() {
           {
             text: 'Name',
             dataField: 'name',
+            formatter: (cell, { _id }) => (
+              <span
+                className="text-primary hover-pointer"
+                onClick={() => history.push(`/product/view?id=${_id}`)}
+                aria-hidden="true"
+              >
+                {cell}
+              </span>
+            ),
           },
           {
             text: 'Phone',

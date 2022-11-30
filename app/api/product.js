@@ -7,6 +7,13 @@ export const getProducts = async params =>
     params,
   });
 
+export const paginateProducts = async params =>
+  await Request({
+    url: '/api/product/paginate',
+    method: 'GET',
+    params,
+  });
+
 export const getProduct = async id =>
   await Request({
     url: `/api/product/${id}`,

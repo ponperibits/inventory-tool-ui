@@ -13,6 +13,7 @@ import { Helmet } from 'react-helmet';
 import { Form, FormGroup, Row, Col, Label, Button, Spinner } from 'reactstrap';
 import GoBackHeader from 'components/GoBackHeader';
 import MBInput from 'components/MBInput';
+import { useCookies } from 'react-cookie';
 import { useInjectReducer } from 'utils/injectReducer';
 import reducer from './reducer';
 import * as operations from './actions';
@@ -22,6 +23,7 @@ export function ProductForm({ isPopup = false, onConfirm = () => {} }) {
   useInjectReducer({ key: 'productForm', reducer });
   const dispatch = useDispatch();
   const productFormInit = operations.productFormInit(dispatch);
+  const [cookie] = useCookies(['user']);
 
   const {
     name,
@@ -176,7 +178,14 @@ export function ProductForm({ isPopup = false, onConfirm = () => {} }) {
               placeholder="Product Price"
               error={validations}
               value={price}
-              onChange={e => dispatch(operations.changePrice(e))}
+              onChange={e => {
+                dispatch(operations.changePrice(e));
+                dispatch(
+                  operations.changeSellingPrice(
+                    e + e * selectors.getProfitPercent(cookie),
+                  ),
+                );
+              }}
             />
           </Col>
         </FormGroup>

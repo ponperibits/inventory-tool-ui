@@ -1,5 +1,8 @@
 import { get } from 'lodash';
 
+export const getProfitPercent = cookie =>
+  get(cookie, 'user.profitPercent', 20) / 100;
+
 export const name = state => get(state, 'productForm.name', '');
 export const description = state => get(state, 'productForm.description', '');
 export const price = state => get(state, 'productForm.price', '');

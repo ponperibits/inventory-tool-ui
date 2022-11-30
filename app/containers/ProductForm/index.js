@@ -15,11 +15,16 @@ import GoBackHeader from 'components/GoBackHeader';
 import MBInput from 'components/MBInput';
 import { useCookies } from 'react-cookie';
 import { useInjectReducer } from 'utils/injectReducer';
+import history from 'utils/history';
 import reducer from './reducer';
 import * as operations from './actions';
 import * as selectors from './selectors';
 
-export function ProductForm({ isPopup = false, onConfirm = () => {} }) {
+export function ProductForm({
+  isPopup = false,
+  onConfirm = () => {},
+  onCancel = () => {},
+}) {
   useInjectReducer({ key: 'productForm', reducer });
   const dispatch = useDispatch();
   const productFormInit = operations.productFormInit(dispatch);
@@ -100,9 +105,19 @@ export function ProductForm({ isPopup = false, onConfirm = () => {} }) {
         </Button>
       );
     return (
-      <Button type="button" color="primary" onClick={e => onSubmit(e)}>
-        {isEdit ? 'Save / Edit Product' : 'Add Product'}
-      </Button>
+      <>
+        <Button type="button" color="primary" onClick={e => onSubmit(e)}>
+          {isEdit ? 'Save / Edit Product' : 'Add Product'}
+        </Button>
+        <Button
+          className="ms-1"
+          type="button"
+          color="outline-primary"
+          onClick={() => (isPopup ? onCancel() : history.goBack())}
+        >
+          Cancel
+        </Button>
+      </>
     );
   };
 
@@ -122,6 +137,7 @@ export function ProductForm({ isPopup = false, onConfirm = () => {} }) {
     <div
       className={classnames('productForm', {
         'mx-3 mx-md-4 ml-lg-7': !isPopup,
+        'fs-6': isPopup,
       })}
     >
       <Helmet>

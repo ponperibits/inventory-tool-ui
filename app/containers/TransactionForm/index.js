@@ -24,10 +24,12 @@ import {
 } from 'reactstrap';
 import MBInput from 'components/MBInput';
 import AlertPopupHandler from 'components/AlertPopup/AlertPopupHandler';
+import PartyForm from 'containers/PartyForm';
 import ProductForm from 'containers/ProductForm';
 import RSelectAsync from 'components/RSelectAsync';
 import ReactDatetime from 'react-datetime';
 import { useInjectReducer } from 'utils/injectReducer';
+import { CUSTOMER, SUPPLIER } from 'utils/appConstants';
 import { get } from 'lodash';
 import reducer from './reducer';
 import * as operations from './actions';
@@ -129,6 +131,24 @@ export function TransactionForm() {
     return null;
   };
 
+  const onAddNewParty = () => {
+    AlertPopupHandler.openCustom({
+      text: '',
+      data: {},
+      title: '',
+      warning: true,
+      customClass: 'text-xl',
+      ChildTag: PartyForm,
+      ChildProps: {
+        isPopup: true,
+        partyType: transactionType === 'Purchase' ? SUPPLIER : CUSTOMER,
+        postAdd: () => {},
+      },
+      showConfirm: false,
+      showCancel: false,
+    });
+  };
+
   const onAddNewProduct = () => {
     AlertPopupHandler.openCustom({
       text: '',
@@ -192,6 +212,18 @@ export function TransactionForm() {
                                 get(record, 'noOfUnits', 0)
                               : get(e, 'noOfUnits', 0) -
                                 get(record, 'noOfUnits', 0),
+                        },
+                      }),
+                    );
+                  } else {
+                    dispatch(
+                      operations.changeRecord({
+                        index,
+                        payload: {
+                          ...record,
+                          productId: undefined,
+                          amount: 0,
+                          prodUnitsBalance: 0,
                         },
                       }),
                     );
@@ -320,7 +352,7 @@ export function TransactionForm() {
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Label sm={2}>Agreement Expiry Date</Label>
+          <Label sm={2}>Transaction Date</Label>
           <Col sm={6}>
             <InputGroup className="input-group-alternative">
               <ReactDatetime
@@ -363,6 +395,8 @@ export function TransactionForm() {
               onChange={e => {
                 if (e) {
                   dispatch(operations.changeParty(e));
+                } else {
+                  dispatch(operations.changeParty());
                 }
               }}
               noOptionsMessage={() => (
@@ -370,7 +404,7 @@ export function TransactionForm() {
                   role="button"
                   className="w-100 text-white bg-primary text-left p-3"
                   onClick={() => {
-                    // setShowAddExpenseGroupForm(true);
+                    onAddNewParty();
                   }}
                 >
                   + Add{' '}

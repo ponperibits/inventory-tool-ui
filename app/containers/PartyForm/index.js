@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /**
  *
  * PartyForm
@@ -7,17 +8,24 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import qs from 'query-string';
+import classnames from 'classnames';
 import { Helmet } from 'react-helmet';
 import { Form, FormGroup, Row, Col, Label, Button, Spinner } from 'reactstrap';
 import GoBackHeader from 'components/GoBackHeader';
 import MBInput from 'components/MBInput';
 import { useInjectReducer } from 'utils/injectReducer';
+import history from 'utils/history';
 import { CUSTOMER, SUPPLIER } from 'utils/appConstants';
 import reducer from './reducer';
 import * as operations from './actions';
 import * as selectors from './selectors';
 
-export function PartyForm() {
+export function PartyForm({
+  isPopup = false,
+  partyType = SUPPLIER,
+  onConfirm = () => {},
+  onCancel = () => {},
+}) {
   useInjectReducer({ key: 'partyForm', reducer });
   const dispatch = useDispatch();
   const partyFormInit = operations.partyFormInit(dispatch);
@@ -54,6 +62,10 @@ export function PartyForm() {
     if (id) {
       dispatch(operations.fetchDetails(id));
     }
+
+    if (partyType) {
+      dispatch(operations.changeType(partyType));
+    }
     return () => partyFormInit();
   }, []);
 
@@ -75,15 +87,19 @@ export function PartyForm() {
       );
     } else {
       dispatch(
-        operations.onSubmit({
-          name,
-          phone,
-          type,
-          gstNumber,
-          panNumber,
-          category,
-          address,
-        }),
+        operations.onSubmit(
+          {
+            name,
+            phone,
+            type,
+            gstNumber,
+            panNumber,
+            category,
+            address,
+          },
+          isPopup,
+          onConfirm,
+        ),
       );
     }
   };
@@ -101,9 +117,19 @@ export function PartyForm() {
         </Button>
       );
     return (
-      <Button type="button" color="primary" onClick={e => onSubmit(e)}>
-        {isEdit ? 'Save / Edit Party' : 'Add Party'}
-      </Button>
+      <>
+        <Button type="button" color="primary" onClick={e => onSubmit(e)}>
+          {isEdit ? 'Save / Edit Party' : 'Add Party'}
+        </Button>
+        <Button
+          className="ms-1"
+          type="button"
+          color="outline-primary"
+          onClick={() => (isPopup ? onCancel() : history.goBack())}
+        >
+          Cancel
+        </Button>
+      </>
     );
   };
 
@@ -120,12 +146,17 @@ export function PartyForm() {
   };
 
   return (
-    <div className="partyForm mx-3 mx-md-4 ml-lg-7">
+    <div
+      className={classnames('partyForm', {
+        'mx-3 mx-md-4 ml-lg-7': !isPopup,
+        'fs-6': isPopup,
+      })}
+    >
       <Helmet>
         <title>Party Form</title>
         <meta name="description" content="Description of Party Form" />
       </Helmet>
-      <GoBackHeader />
+      {!isPopup && <GoBackHeader />}
       <Row className="mt-3 mb-4">
         <Col xs="12">
           <h5 className="font-weight-bold">
@@ -135,10 +166,10 @@ export function PartyForm() {
       </Row>
       <Form role="form" onSubmit={e => onSubmit(e)}>
         <FormGroup row>
-          <Label for="name" sm={2}>
+          <Label for="name" sm={isPopup ? 4 : 2}>
             Name
           </Label>
-          <Col sm={6}>
+          <Col sm={isPopup ? 8 : 6}>
             <MBInput
               type="text"
               name="name"
@@ -150,10 +181,10 @@ export function PartyForm() {
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Label for="phone" sm={2}>
+          <Label for="phone" sm={isPopup ? 4 : 2}>
             Phone
           </Label>
-          <Col sm={6}>
+          <Col sm={isPopup ? 8 : 6}>
             <MBInput
               type="text"
               name="phone"
@@ -165,10 +196,10 @@ export function PartyForm() {
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Label for="type" sm={2}>
+          <Label for="type" sm={isPopup ? 4 : 2}>
             Type
           </Label>
-          <Col sm={6}>
+          <Col sm={isPopup ? 8 : 6}>
             {[SUPPLIER, CUSTOMER].map(item => (
               <Button
                 className="ms-1"
@@ -182,10 +213,10 @@ export function PartyForm() {
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Label for="gstNumber" sm={2}>
+          <Label for="gstNumber" sm={isPopup ? 4 : 2}>
             GST Number
           </Label>
-          <Col sm={6}>
+          <Col sm={isPopup ? 8 : 6}>
             <MBInput
               type="text"
               name="gstNumber"
@@ -197,10 +228,10 @@ export function PartyForm() {
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Label for="panNumber" sm={2}>
+          <Label for="panNumber" sm={isPopup ? 4 : 2}>
             PAN Number
           </Label>
-          <Col sm={6}>
+          <Col sm={isPopup ? 8 : 6}>
             <MBInput
               type="text"
               name="panNumber"
@@ -212,10 +243,10 @@ export function PartyForm() {
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Label for="category" sm={2}>
+          <Label for="category" sm={isPopup ? 4 : 2}>
             Category
           </Label>
-          <Col sm={6}>
+          <Col sm={isPopup ? 8 : 6}>
             <MBInput
               type="text"
               name="category"
@@ -227,10 +258,10 @@ export function PartyForm() {
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Label for="address" sm={2}>
+          <Label for="address" sm={isPopup ? 4 : 2}>
             Address
           </Label>
-          <Col sm={6}>
+          <Col sm={isPopup ? 8 : 6}>
             <MBInput
               type="textarea"
               name="address"

@@ -23,7 +23,7 @@ import {
 } from './constants';
 import schema from './validations';
 
-export const onSubmit = partyDetails => async dispatch => {
+export const onSubmit = (partyDetails, isPopup, next) => async dispatch => {
   try {
     const isValid = schema.isValidSync(partyDetails);
     if (!isValid) {
@@ -38,7 +38,12 @@ export const onSubmit = partyDetails => async dispatch => {
       operation: 'success',
       title: 'Party added successfully',
     });
-    history.push('/party');
+
+    if (isPopup) {
+      next();
+    } else {
+      history.push('/party');
+    }
   } catch (err) {
     dispatch(showLoading(false));
     NotificationHandler.open({

@@ -5,3 +5,5 @@ export const partyDetails = state =>
   get(state, 'partyDetails.partyDetails', {});
 export const partyHistory = state =>
   get(state, 'partyDetails.partyHistory', []);
+export const paginationDetails = state =>
+  get(state, 'partyDetails.paginationDetails', {});

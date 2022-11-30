@@ -6,7 +6,15 @@
 
 import React, { useEffect } from 'react';
 import qs from 'query-string';
-import { Card, CardHeader, CardBody, Row, Col, Badge } from 'reactstrap';
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  Row,
+  Col,
+  Badge,
+  Button,
+} from 'reactstrap';
 import Loader from 'components/Loaders';
 import GoBackHeader from 'components/GoBackHeader';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,19 +33,25 @@ export function ProductDetails() {
   const dispatch = useDispatch();
   const partyDetailsInit = operations.partyDetailsInit(dispatch);
 
-  const { isLoading, partyDetails, partyHistory } = useSelector(state => ({
+  const {
+    isLoading,
+    partyDetails,
+    partyHistory,
+    paginationDetails,
+  } = useSelector(state => ({
     isLoading: selectors.isLoading(state),
     partyDetails: selectors.partyDetails(state),
     partyHistory: selectors.partyHistory(state),
+    paginationDetails: selectors.paginationDetails(state),
   }));
 
   const getProperty = (propertyName, defaultValue = '-') =>
     get(partyDetails, propertyName, '') || defaultValue;
 
-  const buildQuery = () =>
+  const buildQuery = (page = 1) =>
     getProperty('type') === SUPPLIER
-      ? { supplierId: getProperty('_id') }
-      : { customerId: getProperty('_id') };
+      ? { supplierId: getProperty('_id'), page }
+      : { customerId: getProperty('_id'), page };
 
   useEffect(() => {
     // eslint-disable-next-line no-restricted-globals
@@ -150,39 +164,58 @@ export function ProductDetails() {
         <span className="text-muted">No history</span>
       </div>
     ) : (
-      partyHistory.map(
-        ({ transactionDate, supplierId, productId, noOfUnits }, index) => (
-          <>
-            <div className="d-flex justify-content-between">
-              <div className="d-flex align-items-center">
-                <Badge
-                  color={supplierId ? 'danger' : 'success'}
-                  className="me-3"
-                >
-                  {supplierId ? (
-                    <i className="fas fa-truck" />
-                  ) : (
-                    <i className="fas fa-box" />
-                  )}
-                </Badge>
-                <div className="d-flex flex-column">
+      <>
+        {partyHistory.map(
+          ({ transactionDate, supplierId, productId, noOfUnits }, index) => (
+            <>
+              <div className="d-flex justify-content-between">
+                <div className="d-flex align-items-center">
+                  <Badge
+                    color={supplierId ? 'danger' : 'success'}
+                    className="me-3"
+                  >
+                    {supplierId ? (
+                      <i className="fas fa-truck" />
+                    ) : (
+                      <i className="fas fa-box" />
+                    )}
+                  </Badge>
+                  <div className="d-flex flex-column">
+                    <span className="text-muted">
+                      {`${
+                        supplierId ? 'Purchased' : 'Sold'
+                      } ${noOfUnits} units of ${get(productId, 'name', '-')}`}
+                    </span>
+                  </div>
+                </div>
+                <div>
                   <span className="text-muted">
-                    {`${
-                      supplierId ? 'Purchased' : 'Sold'
-                    } ${noOfUnits} units of ${get(productId, 'name', '-')}`}
+                    {parseDateTime(transactionDate)}
                   </span>
                 </div>
               </div>
-              <div>
-                <span className="text-muted">
-                  {parseDateTime(transactionDate)}
-                </span>
-              </div>
-            </div>
-            {index + 1 !== partyHistory.length && <hr />}
-          </>
-        ),
-      )
+              {index + 1 !== partyHistory.length && <hr />}
+            </>
+          ),
+        )}
+        {paginationDetails && paginationDetails.hasNextPage && (
+          <Row>
+            <Button
+              size="sm"
+              color="link"
+              onClick={() =>
+                dispatch(
+                  operations.fetchPartyHistory(
+                    buildQuery(paginationDetails.nextPage),
+                  ),
+                )
+              }
+            >
+              See More
+            </Button>
+          </Row>
+        )}
+      </>
     );
 
   return (

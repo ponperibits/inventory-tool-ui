@@ -144,7 +144,7 @@ export function PartyManagement() {
             formatter: (cell, { _id }) => (
               <span
                 className="text-primary hover-pointer"
-                onClick={() => history.push(`/product/view?id=${_id}`)}
+                onClick={() => history.push(`/party/view?id=${_id}`)}
                 aria-hidden="true"
               >
                 {cell}

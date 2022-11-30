@@ -16,6 +16,22 @@ exports.list = async (req, res) => {
   }
 };
 
+exports.paginate = async (req, res) => {
+  try {
+    const records = await Request(
+      {
+        url: '/v1/record/paginate',
+        method: 'GET',
+        params: req.query,
+      },
+      req.headers,
+    );
+    res.json(records);
+  } catch (err) {
+    res.status(err.status).json(err.message);
+  }
+};
+
 exports.fetch = async (req, res) => {
   try {
     const { recordId } = req.params;

@@ -7,7 +7,7 @@
 import NotificationHandler from 'components/Notifications/NotificationHandler';
 import { get } from 'lodash';
 import { getParty } from 'api/party';
-import { getRecords } from 'api/record';
+import { paginateRecords } from 'api/record';
 import { INIT, SET_PARTY_DETAILS, SET_PARTY_HISTORY } from './constants';
 
 export const fetchPartyDetails = id => async dispatch => {
@@ -27,7 +27,7 @@ export const fetchPartyDetails = id => async dispatch => {
 
 export const fetchPartyHistory = params => async dispatch => {
   try {
-    const { data } = await getRecords(params);
+    const { data } = await paginateRecords(params);
     dispatch(setPartyHisotry(data));
   } catch (err) {
     NotificationHandler.open({

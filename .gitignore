@@ -10,3 +10,6 @@ npm-debug.log
 .idea
 
 .env
+
+inventory-tool.pem
+build-and-send-aws.sh

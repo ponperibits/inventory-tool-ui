@@ -21,6 +21,7 @@ import { Helmet } from 'react-helmet';
 import ReactToPrint from 'react-to-print';
 import Table from 'components/Table';
 import { useDispatch, useSelector } from 'react-redux';
+import indianNumberFormatter from 'utils/indianNumberFormatter';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import { useInjectReducer } from 'utils/injectReducer';
 import { CUSTOMER } from 'utils/appConstants';
@@ -301,14 +302,17 @@ export function ReportManagement() {
             {
               text: 'No. of Units',
               dataField: 'noOfUnits',
+              formatter: cell => indianNumberFormatter(cell, true),
             },
             {
               text: 'Product Units Balance',
               dataField: 'prodUnitsBalance',
+              formatter: cell => indianNumberFormatter(cell, true),
             },
             {
               text: 'Amount',
               dataField: 'amount',
+              formatter: cell => indianNumberFormatter(cell),
             },
           ]}
         />

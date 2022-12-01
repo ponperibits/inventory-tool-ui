@@ -18,6 +18,7 @@ import Table from 'components/Table';
 import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 import { useInjectReducer } from 'utils/injectReducer';
+import indianNumberFormatter from 'utils/indianNumberFormatter';
 import history from 'utils/history';
 import { EXPENSE } from 'utils/appConstants';
 import { parseDate } from 'utils/dateTimeHelpers';
@@ -158,7 +159,11 @@ export function ExpenseManagement() {
               </Badge>
             ),
           },
-          { text: 'Amount', dataField: 'amount' },
+          {
+            text: 'Amount',
+            dataField: 'amount',
+            formatter: cell => indianNumberFormatter(cell),
+          },
           {
             text: 'Notes',
             dataField: 'notes',

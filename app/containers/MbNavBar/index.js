@@ -99,7 +99,6 @@ export function MbNavBar() {
                 <DropdownMenu
                   className="dropdown-menu-sm text-sm py-0 overflow-hidden"
                   end
-                  tog
                 >
                   <DropdownItem onClick={() => history.push('/settings')}>
                     Settings

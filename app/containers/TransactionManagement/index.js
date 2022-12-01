@@ -19,6 +19,7 @@ import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 import { get } from 'lodash';
 import { useInjectReducer } from 'utils/injectReducer';
+import indianNumberFormatter from 'utils/indianNumberFormatter';
 import history from 'utils/history';
 import { parseDate } from 'utils/dateTimeHelpers';
 import reducer from './reducer';
@@ -51,9 +52,21 @@ export function TransactionManagement() {
         paginationOptions={null}
         columns={[
           { text: 'Product', dataField: 'productId.name' },
-          { text: 'Quantity', dataField: 'noOfUnits' },
-          { text: 'Amount', dataField: 'amount' },
-          { text: 'Product Units Balance', dataField: 'prodUnitsBalance' },
+          {
+            text: 'Quantity',
+            dataField: 'noOfUnits',
+            formatter: cell => indianNumberFormatter(cell, true),
+          },
+          {
+            text: 'Amount',
+            dataField: 'amount',
+            formatter: cell => indianNumberFormatter(cell),
+          },
+          {
+            text: 'Product Units Balance',
+            dataField: 'prodUnitsBalance',
+            formatter: cell => indianNumberFormatter(cell, true),
+          },
           {
             text: 'Supplier',
             dataField: 'supplierId.name',
@@ -201,7 +214,11 @@ export function TransactionManagement() {
               <span className="hover-pointer">{parseDate(cell)}</span>
             ),
           },
-          { text: 'Amount', dataField: 'amount' },
+          {
+            text: 'Amount',
+            dataField: 'amount',
+            formatter: cell => indianNumberFormatter(cell),
+          },
           {
             text: 'Actions',
             dummyField: true,

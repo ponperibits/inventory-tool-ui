@@ -95,19 +95,27 @@ export function ProductForm({
   const getSubmitButton = () => {
     if (isLoading)
       return (
-        <Button type="button" color="primary" className="btn-icon" disabled>
-          <span className="btn-inner-icon">
-            <Spinner size="sm" className="mr-2" />
-          </span>{' '}
-          <span className="btn-inner-text">
-            {isEdit ? 'Save / Edit Product' : 'Add Product'}
-          </span>
-        </Button>
+        <>
+          <Button type="button" color="primary" className="btn-icon" disabled>
+            <span className="btn-inner-icon">
+              <Spinner size="sm" className="mr-2" />
+            </span>{' '}
+            <span className="btn-inner-text">Save Product</span>
+          </Button>
+          <Button
+            className="ms-1"
+            type="button"
+            color="outline-primary"
+            disabled
+          >
+            Cancel
+          </Button>
+        </>
       );
     return (
       <>
         <Button type="button" color="primary" onClick={e => onSubmit(e)}>
-          {isEdit ? 'Save / Edit Product' : 'Add Product'}
+          Save Product
         </Button>
         <Button
           className="ms-1"

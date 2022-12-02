@@ -107,19 +107,27 @@ export function PartyForm({
   const getSubmitButton = () => {
     if (isLoading)
       return (
-        <Button type="button" color="primary" className="btn-icon" disabled>
-          <span className="btn-inner-icon">
-            <Spinner size="sm" className="mr-2" />
-          </span>{' '}
-          <span className="btn-inner-text">
-            {isEdit ? 'Save / Edit Party' : 'Add Party'}
-          </span>
-        </Button>
+        <>
+          <Button type="button" color="primary" className="btn-icon" disabled>
+            <span className="btn-inner-icon">
+              <Spinner size="sm" className="mr-2" />
+            </span>{' '}
+            <span className="btn-inner-text">Save Party</span>
+          </Button>
+          <Button
+            className="ms-1"
+            type="button"
+            color="outline-primary"
+            disabled
+          >
+            Cancel
+          </Button>
+        </>
       );
     return (
       <>
         <Button type="button" color="primary" onClick={e => onSubmit(e)}>
-          {isEdit ? 'Save / Edit Party' : 'Add Party'}
+          Save Party
         </Button>
         <Button
           className="ms-1"

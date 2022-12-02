@@ -29,6 +29,7 @@ import ProductForm from 'containers/ProductForm';
 import RSelectAsync from 'components/RSelectAsync';
 import ReactDatetime from 'react-datetime';
 import { useInjectReducer } from 'utils/injectReducer';
+import history from 'utils/history';
 import { CUSTOMER, SUPPLIER } from 'utils/appConstants';
 import { get } from 'lodash';
 import reducer from './reducer';
@@ -103,19 +104,37 @@ export function TransactionForm() {
   const getSubmitButton = () => {
     if (isLoading)
       return (
-        <Button type="button" color="primary" className="btn-icon" disabled>
-          <span className="btn-inner-icon">
-            <Spinner size="sm" className="mr-2" />
-          </span>{' '}
-          <span className="btn-inner-text">
-            {isEdit ? 'Save / Edit Transaction' : 'Add Transaction'}
-          </span>
-        </Button>
+        <>
+          <Button type="button" color="primary" className="btn-icon" disabled>
+            <span className="btn-inner-icon">
+              <Spinner size="sm" className="mr-2" />
+            </span>{' '}
+            <span className="btn-inner-text">Save Transaction</span>
+          </Button>
+          <Button
+            className="ms-1"
+            type="button"
+            color="outline-primary"
+            disabled
+          >
+            Cancel
+          </Button>
+        </>
       );
     return (
-      <Button type="button" color="primary" onClick={e => onSubmit(e)}>
-        {isEdit ? 'Save / Edit Transaction' : 'Add Transaction'}
-      </Button>
+      <>
+        <Button type="button" color="primary" onClick={e => onSubmit(e)}>
+          Save Transaction
+        </Button>
+        <Button
+          className="ms-1"
+          type="button"
+          color="outline-primary"
+          onClick={() => history.goBack()}
+        >
+          Cancel
+        </Button>
+      </>
     );
   };
 

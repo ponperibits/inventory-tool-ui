@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /**
  *
  * TransactionManagement
@@ -16,6 +17,7 @@ import {
 import Table from 'components/Table';
 import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
+import { get } from 'lodash';
 import { useInjectReducer } from 'utils/injectReducer';
 import history from 'utils/history';
 import { parseDate } from 'utils/dateTimeHelpers';
@@ -65,6 +67,15 @@ export function TransactionManagement() {
         ]}
       />
     ),
+    showExpandColumn: true,
+    expandColumnPosition: 'right',
+    expandColumnRenderer: ({ expanded }) =>
+      expanded ? (
+        <i className="fas fa-chevron-up" />
+      ) : (
+        <i className="fas fa-chevron-down" />
+      ),
+    expandHeaderColumnRenderer: () => 'Expand Rows',
   };
 
   const getPagination = () => (
@@ -175,6 +186,15 @@ export function TransactionManagement() {
         expandRow={expandRowProps}
         columns={[
           {
+            text: 'Party Name',
+            dataField: 'supplierId.name',
+            formatter: (cell, row) => (
+              <span className="hover-pointer text-primary">
+                {cell || get(row, 'customerId.name')}
+              </span>
+            ),
+          },
+          {
             text: 'Date',
             dataField: 'transactionDate',
             formatter: cell => (
@@ -198,18 +218,6 @@ export function TransactionManagement() {
                 >
                   <span className="btn-inner--icon">
                     <i className="fas fa-edit" />
-                  </span>
-                </Button>
-                <Button
-                  title="View Transaction"
-                  type="button"
-                  color="info"
-                  size="sm"
-                  className="btn-sm ms-1 text-white"
-                  onClick={() => history.push(`/transaction/view?id=${_id}`)}
-                >
-                  <span className="btn-inner--icon">
-                    <i className="fas fa-eye" />
                   </span>
                 </Button>
               </>

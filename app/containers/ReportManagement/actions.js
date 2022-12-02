@@ -36,7 +36,7 @@ export const onSubmit = ({ startDate, endDate, ...rest }) => async dispatch => {
   }
 };
 
-const setReportList = payload => ({
+export const setReportList = payload => ({
   type: SET_REPORT_LIST,
   payload,
 });

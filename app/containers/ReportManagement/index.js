@@ -47,6 +47,10 @@ export function ReportManagement() {
 
   useEffect(() => () => reportInit(), []);
 
+  useEffect(() => {
+    dispatch(operations.setReportList([]));
+  }, [reportType, startDate, endDate, selectedEntity]);
+
   const shapeParams = () => {
     if (reportType === 'Product') {
       return {
@@ -95,7 +99,10 @@ export function ReportManagement() {
                 className="ms-1"
                 color={reportType === item ? 'primary' : 'outline-primary'}
                 key={item}
-                onClick={() => dispatch(operations.changeReportType(item))}
+                onClick={() => {
+                  dispatch(operations.changeReportType(item));
+                  dispatch(operations.changeEntity());
+                }}
               >
                 {item}
               </Button>

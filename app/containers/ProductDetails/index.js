@@ -20,6 +20,7 @@ import GoBackHeader from 'components/GoBackHeader';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { useInjectReducer } from 'utils/injectReducer';
+import indianNumberFormatter from 'utils/indianNumberFormatter';
 import { get, isEmpty } from 'lodash';
 import history from 'utils/history';
 import { parseDateTime } from 'utils/dateTimeHelpers';
@@ -115,25 +116,25 @@ export function ProductDetails() {
         <p>
           <span className="text-muted">Price: </span>
           <span className="text-primary text-bold fw-bold">
-            {getProperty('price')}
+            {indianNumberFormatter(getProperty('price'))}
           </span>
         </p>
         <p>
           <span className="text-muted">Selling Price: </span>
           <span className="text-primary fw-bold">
-            {getProperty('sellingPrice')}
+            {indianNumberFormatter(getProperty('sellingPrice'))}
           </span>
         </p>
         <p>
           <span className="text-muted">No of Units in Stock: </span>
           <span className="text-primary fw-bold">
-            {getProperty('noOfUnits', 0)}
+            {indianNumberFormatter(getProperty('noOfUnits', 0), true)}
           </span>
         </p>
         <p>
           <span className="text-muted">Minimum stock to be notified: </span>
           <span className="text-primary fw-bold">
-            {getProperty('minStockWarning', 0)}
+            {indianNumberFormatter(getProperty('minStockWarning', 0), true)}
           </span>
         </p>
       </CardBody>
@@ -168,9 +169,9 @@ export function ProductDetails() {
                         get(customerId, 'name', null)}
                     </span>
                     <span className="text-muted">
-                      {supplierId
-                        ? `Purchased ${noOfUnits}`
-                        : `Sold ${noOfUnits}`}
+                      {`${
+                        supplierId ? 'Purchased' : 'Sold'
+                      } ${indianNumberFormatter(noOfUnits, true)}`}
                     </span>
                   </div>
                 </div>

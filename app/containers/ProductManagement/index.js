@@ -16,6 +16,7 @@ import {
 import { Helmet } from 'react-helmet';
 import Table from 'components/Table';
 import { useDispatch, useSelector } from 'react-redux';
+import indianNumberFormatter from 'utils/indianNumberFormatter';
 import { useInjectReducer } from 'utils/injectReducer';
 import history from 'utils/history';
 import reducer from './reducer';
@@ -155,14 +156,17 @@ export function ProductManagement() {
           {
             text: 'Price',
             dataField: 'price',
+            formatter: cell => indianNumberFormatter(cell),
           },
           {
             text: 'Selling Price',
             dataField: 'sellingPrice',
+            formatter: cell => indianNumberFormatter(cell),
           },
           {
             text: 'No. of Units',
             dataField: 'noOfUnits',
+            formatter: cell => indianNumberFormatter(cell, true),
           },
           {
             text: 'Actions',

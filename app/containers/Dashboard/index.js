@@ -50,21 +50,25 @@ export default function Dashboard() {
               title="Suppliers"
               route="party?type=Supplier"
               count={getStat('noOfSuppliers')}
+              isNumValue
             />
             <CountCard
               title="Customers"
               route="party?type=Customer"
               count={getStat('noOfCustomers')}
+              isNumValue
             />
             <CountCard
               title="Products"
               route="product"
               count={getStat('noOfProducts')}
+              isNumValue
             />
             <CountCard
               title="No. of Low Stock Products"
               route="product"
               count={getStat('noOfLowStockProducts')}
+              isNumValue
             />
             <CountCard
               title="Purchase So Far"

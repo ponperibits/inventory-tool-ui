@@ -5,7 +5,7 @@
  *
  */
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Row,
   Col,
@@ -21,6 +21,7 @@ import { Helmet } from 'react-helmet';
 import ReactToPrint from 'react-to-print';
 import Table from 'components/Table';
 import { useDispatch, useSelector } from 'react-redux';
+import * as XLSX from 'xlsx/xlsx.mjs';
 import { useInjectReducer } from 'utils/injectReducer';
 import { CUSTOMER } from 'utils/appConstants';
 import {
@@ -45,11 +46,60 @@ export function ReportManagement() {
   const startDate = useSelector(selectors.startDate);
   const endDate = useSelector(selectors.endDate);
 
+  const [shapedCSVData, setShapedCSVData] = useState([]);
+
   useEffect(() => () => reportInit(), []);
 
   useEffect(() => {
     dispatch(operations.setReportList([]));
   }, [reportType, startDate, endDate, selectedEntity]);
+
+  useEffect(() => {
+    setShapedCSVData(
+      reportList.map(
+        ({
+          transactionDate,
+          noOfUnits,
+          prodUnitsBalance,
+          amount,
+          ...rest
+        }) => ({
+          'Transaction Date': parseDate(transactionDate),
+          Name:
+            reportType === 'Party'
+              ? get(rest, 'productId.name')
+              : get(rest, 'customerId.name', get(rest, 'supplierId.name')),
+          Type: get(rest, 'customerId.name') ? 'Sale' : 'Purchase',
+          'No of Units': noOfUnits,
+          'Product Units Balance': prodUnitsBalance,
+          Amount: amount,
+        }),
+      ),
+    );
+  }, [reportList]);
+
+  const exportToCSV = () => {
+    const ws = XLSX.utils.json_to_sheet(shapedCSVData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Transactions');
+    const wbout = XLSX.write(wb, { bookType: 'csv', type: 'binary' });
+
+    function s2ab(s) {
+      const buf = new ArrayBuffer(s.length);
+      const view = new Uint8Array(buf);
+      // eslint-disable-next-line no-bitwise
+      for (let i = 0; i !== s.length; i += 1) view[i] = s.charCodeAt(i) & 0xff;
+      return buf;
+    }
+
+    // eslint-disable-next-line no-undef
+    saveAs(
+      new Blob([s2ab(wbout)], { type: 'application/octet-stream' }),
+      `${reportType}_Report - ${get(selectedEntity, 'name', '')} - ${parseDate(
+        startDate,
+      )} to ${parseDate(endDate)}.csv`,
+    );
+  };
 
   const shapeParams = () => {
     if (reportType === 'Product') {
@@ -201,7 +251,7 @@ export function ReportManagement() {
                 color="outline-primary"
                 type="button"
                 size="sm"
-                onClick={() => {}}
+                onClick={() => exportToCSV()}
               >
                 Export
               </Button>

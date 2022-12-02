@@ -4,7 +4,8 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import qs from 'query-string';
 import {
   Row,
   Col,
@@ -19,7 +20,7 @@ import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 import { useInjectReducer } from 'utils/injectReducer';
 import history from 'utils/history';
-import { SUPPLIER } from 'utils/appConstants';
+import { SUPPLIER, PARTY_FILTERS } from 'utils/appConstants';
 import reducer from './reducer';
 import * as operations from './actions';
 import * as selectors from './selectors';
@@ -31,9 +32,28 @@ export function PartyManagement() {
   const parties = useSelector(selectors.parties);
   const paginationDetails = useSelector(selectors.paginationDetails);
 
+  const [filterTab, setFilterTab] = useState(null);
+
+  const buildQuery = (page = 1, initialFilter = null) => ({
+    page,
+    ...(filterTab && { type: filterTab }),
+    ...(initialFilter && { type: initialFilter }),
+  });
+
   useEffect(() => {
-    dispatch(operations.fetchParties({ page: 1 }));
+    // eslint-disable-next-line no-restricted-globals
+    const { type } = qs.parse(location.search);
+    if (type) {
+      setFilterTab(type);
+      dispatch(operations.fetchParties(buildQuery(1, type)));
+    } else {
+      dispatch(operations.fetchParties(buildQuery(1)));
+    }
   }, []);
+
+  useEffect(() => {
+    dispatch(operations.fetchParties(buildQuery(1)));
+  }, [filterTab]);
 
   const getPagination = () => (
     <Pagination
@@ -44,16 +64,14 @@ export function PartyManagement() {
       <PaginationItem>
         <PaginationLink
           first
-          onClick={() => dispatch(operations.fetchParties({ page: 1 }))}
+          onClick={() => dispatch(operations.fetchParties(buildQuery(1)))}
         />
       </PaginationItem>
       <PaginationItem>
         <PaginationLink
           onClick={() =>
             dispatch(
-              operations.fetchParties({
-                page: paginationDetails.prevPage,
-              }),
+              operations.fetchParties(buildQuery(paginationDetails.prevPage)),
             )
           }
           previous
@@ -65,11 +83,7 @@ export function PartyManagement() {
           <PaginationItem active={paginationDetails.page === pageNumber}>
             <PaginationLink
               onClick={() =>
-                dispatch(
-                  operations.fetchParties({
-                    page: pageNumber,
-                  }),
-                )
+                dispatch(operations.fetchParties(buildQuery(pageNumber)))
               }
             >
               {pageNumber}
@@ -80,9 +94,7 @@ export function PartyManagement() {
         <PaginationLink
           onClick={() =>
             dispatch(
-              operations.fetchParties({
-                page: paginationDetails.nextPage,
-              }),
+              operations.fetchParties(buildQuery(paginationDetails.nextPage)),
             )
           }
           next
@@ -94,9 +106,7 @@ export function PartyManagement() {
           last
           onClick={() =>
             dispatch(
-              operations.fetchParties({
-                page: paginationDetails.totalPages,
-              }),
+              operations.fetchParties(buildQuery(paginationDetails.totalPages)),
             )
           }
         />
@@ -126,6 +136,26 @@ export function PartyManagement() {
             </span>{' '}
             <span className="btn-inner--text">Add Party</span>
           </Button>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <div className="ml-2">
+            {PARTY_FILTERS.map(({ _id, name }) => (
+              <Button
+                className="ms-1"
+                size="sm"
+                color={
+                  filterTab === _id || filterTab === ''
+                    ? 'primary'
+                    : 'outline-primary'
+                }
+                onClick={() => setFilterTab(_id)}
+              >
+                {name}
+              </Button>
+            ))}
+          </div>
         </Col>
       </Row>
 

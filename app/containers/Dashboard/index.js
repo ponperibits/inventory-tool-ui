@@ -48,12 +48,12 @@ export default function Dashboard() {
           <Row className="d-flex flex-wrap">
             <CountCard
               title="Suppliers"
-              route="party"
+              route="party?type=Supplier"
               count={getStat('noOfSuppliers')}
             />
             <CountCard
               title="Customers"
-              route="party"
+              route="party?type=Customer"
               count={getStat('noOfCustomers')}
             />
             <CountCard

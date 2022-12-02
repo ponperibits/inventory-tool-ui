@@ -22,6 +22,7 @@ import { Helmet } from 'react-helmet';
 import { useInjectReducer } from 'utils/injectReducer';
 import { get, isEmpty } from 'lodash';
 import history from 'utils/history';
+import indianNumberFormatter from 'utils/indianNumberFormatter';
 import { SUPPLIER } from 'utils/appConstants';
 import { parseDateTime } from 'utils/dateTimeHelpers';
 import reducer from './reducer';
@@ -184,7 +185,10 @@ export function ProductDetails() {
                     <span className="text-muted">
                       {`${
                         supplierId ? 'Purchased' : 'Sold'
-                      } ${noOfUnits} units of ${get(productId, 'name', '-')}`}
+                      } ${indianNumberFormatter(
+                        noOfUnits,
+                        true,
+                      )} units of ${get(productId, 'name', '-')}`}
                     </span>
                   </div>
                 </div>

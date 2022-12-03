@@ -32,6 +32,7 @@ import { useInjectReducer } from 'utils/injectReducer';
 import history from 'utils/history';
 import { CUSTOMER, SUPPLIER } from 'utils/appConstants';
 import { get } from 'lodash';
+import moment from 'moment-timezone';
 import reducer from './reducer';
 import * as operations from './actions';
 import * as selectors from './selectors';
@@ -67,7 +68,9 @@ export function TransactionForm() {
     // eslint-disable-next-line no-restricted-globals
     const { id } = qs.parse(location.search);
     if (id) {
-      dispatch(operations.fetchDetails(id));
+      dispatch(operations.fetchDetails(id, setTransactionType));
+    } else {
+      dispatch(operations.changeDate(moment()));
     }
     return () => transactionFormInit();
   }, []);
@@ -379,7 +382,7 @@ export function TransactionForm() {
                   placeholder: 'Select Date',
                 }}
                 dateFormat="DD-MM-YYYY"
-                timeFormat={false}
+                timeFormat="hh:mm:a"
                 onChange={e => dispatch(operations.changeDate(e))}
                 value={transactionDate}
               />

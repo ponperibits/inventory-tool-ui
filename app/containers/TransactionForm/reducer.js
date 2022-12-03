@@ -4,6 +4,7 @@
  *
  */
 import produce from 'immer';
+import moment from 'moment-timezone';
 import {
   INIT,
   CHANGE_DATE,
@@ -17,7 +18,7 @@ import {
 import { shapeRecords } from './helpers';
 
 export const initialState = {
-  transactionDate: '',
+  transactionDate: moment(),
   notes: '',
   partyId: '',
   records: [{ productId: '', noOfUnits: '', prodUnitsBalance: 0, amount: 0 }],

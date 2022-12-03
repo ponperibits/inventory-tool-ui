@@ -81,10 +81,14 @@ export const onEdit = (id, transactionDetails) => async dispatch => {
   }
 };
 
-export const fetchDetails = id => async dispatch => {
+export const fetchDetails = (id, setTransactionType) => async dispatch => {
   try {
     const { data } = await getTransaction(id);
     dispatch(setTransactionDetails(data));
+
+    if (get(data, 'customerId')) {
+      setTransactionType('Sales');
+    }
   } catch (err) {
     NotificationHandler.open({
       operation: 'failure',

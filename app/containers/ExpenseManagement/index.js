@@ -15,6 +15,7 @@ import {
   PaginationLink,
 } from 'reactstrap';
 import Table from 'components/Table';
+import AlertPopupHandler from 'components/AlertPopup/AlertPopupHandler';
 import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -106,6 +107,26 @@ export function ExpenseManagement() {
     </Pagination>
   );
 
+  const onDelete = (id, name) => {
+    AlertPopupHandler.open({
+      onConfirm: () =>
+        dispatch(operations.onDelete(id, { page: paginationDetails.page })),
+      confirmBtnText: 'Delete',
+      text: (
+        <>
+          You are about to delete{' '}
+          <span className="fw-bold fst-italic">{name}</span>. Do you want to
+          continue?
+        </>
+      ),
+      data: {},
+      warning: true,
+      customClass: 'text-xs',
+      btnSize: 'sm',
+      confirmBtnBsStyle: 'danger',
+      cancelBtnBsStyle: 'outline-danger',
+    });
+  };
   return (
     <div className="expenseManagement mx-3 mx-md-4 ml-lg-7">
       <Helmet>
@@ -172,19 +193,33 @@ export function ExpenseManagement() {
           {
             text: 'Actions',
             dummyField: true,
-            formatter: (cell, { _id }) => (
-              <Button
-                title="Edit Expense"
-                type="button"
-                color="primary"
-                size="sm"
-                className="btn-sm"
-                onClick={() => history.push(`/expense/add?id=${_id}`)}
-              >
-                <span className="btn-inner--icon">
-                  <i className="fas fa-edit" />
-                </span>
-              </Button>
+            formatter: (cell, { _id, title }) => (
+              <>
+                <Button
+                  title="Edit Expense"
+                  type="button"
+                  color="primary"
+                  size="sm"
+                  className="btn-sm"
+                  onClick={() => history.push(`/expense/add?id=${_id}`)}
+                >
+                  <span className="btn-inner--icon">
+                    <i className="fas fa-edit" />
+                  </span>
+                </Button>
+                <Button
+                  title="Delete Expense"
+                  type="button"
+                  color="danger"
+                  size="sm"
+                  className="btn-sm ms-1"
+                  onClick={() => onDelete(_id, title)}
+                >
+                  <span className="btn-inner--icon">
+                    <i className="fas fa-trash" />
+                  </span>
+                </Button>
+              </>
             ),
           },
         ]}

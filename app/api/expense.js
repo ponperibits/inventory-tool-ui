@@ -33,3 +33,9 @@ export const editExpense = async (id, data) =>
     method: 'PATCH',
     data,
   });
+
+export const deleteExpense = async id =>
+  await Request({
+    url: `/api/expense/${id}`,
+    method: 'DELETE',
+  });

@@ -26,3 +26,9 @@ export const editTransaction = async (id, data) =>
     method: 'PATCH',
     data,
   });
+
+export const deleteTransaction = async id =>
+  await Request({
+    url: `/api/transaction/${id}`,
+    method: 'DELETE',
+  });

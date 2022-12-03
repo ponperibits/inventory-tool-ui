@@ -33,3 +33,9 @@ export const editParty = async (id, data) =>
     method: 'PATCH',
     data,
   });
+
+export const deleteParty = async id =>
+  await Request({
+    url: `/api/party/${id}`,
+    method: 'DELETE',
+  });

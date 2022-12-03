@@ -33,3 +33,9 @@ export const editProduct = async (id, data) =>
     method: 'PATCH',
     data,
   });
+
+export const deleteProduct = async id =>
+  await Request({
+    url: `/api/product/${id}`,
+    method: 'DELETE',
+  });

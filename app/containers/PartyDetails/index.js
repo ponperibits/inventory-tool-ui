@@ -17,6 +17,7 @@ import {
 } from 'reactstrap';
 import Loader from 'components/Loaders';
 import GoBackHeader from 'components/GoBackHeader';
+import AlertPopupHandler from 'components/AlertPopup/AlertPopupHandler';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -75,8 +76,13 @@ export function ProductDetails() {
     <Col>
       <i
         aria-hidden
-        className="ms-auto far fa-edit text-muted hover-pointer hover-color-primary mr-2"
+        className="ms-auto far fa-edit text-muted hover-pointer hover-color-primary me-3"
         onClick={() => history.push(`/party/add?id=${getProperty('_id')}`)}
+      />
+      <i
+        aria-hidden
+        className="ms-auto fas fa-trash text-danger hover-pointer hover-color-primary me-2"
+        onClick={() => onDelete(getProperty('_id'), getProperty('name'))}
       />
     </Col>
   );
@@ -104,6 +110,26 @@ export function ProductDetails() {
       </Card>
     </>
   );
+
+  const onDelete = (id, name) => {
+    AlertPopupHandler.open({
+      onConfirm: () => dispatch(operations.onDelete(id)),
+      confirmBtnText: 'Delete',
+      text: (
+        <>
+          You are about to delete{' '}
+          <span className="fw-bold fst-italic">{name}</span>. Do you want to
+          continue?
+        </>
+      ),
+      data: {},
+      warning: true,
+      customClass: 'text-xs',
+      btnSize: 'sm',
+      confirmBtnBsStyle: 'danger',
+      cancelBtnBsStyle: 'outline-danger',
+    });
+  };
 
   const getPartyDetails = () => (
     <Card>

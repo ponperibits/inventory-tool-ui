@@ -16,6 +16,7 @@ import {
   PaginationLink,
 } from 'reactstrap';
 import Table from 'components/Table';
+import AlertPopupHandler from 'components/AlertPopup/AlertPopupHandler';
 import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -114,6 +115,27 @@ export function PartyManagement() {
     </Pagination>
   );
 
+  const onDelete = (id, name) => {
+    AlertPopupHandler.open({
+      onConfirm: () =>
+        dispatch(operations.onDelete(id, buildQuery(paginationDetails.page))),
+      confirmBtnText: 'Delete',
+      text: (
+        <>
+          You are about to delete{' '}
+          <span className="fw-bold fst-italic">{name}</span>. Do you want to
+          continue?
+        </>
+      ),
+      data: {},
+      warning: true,
+      customClass: 'text-xs',
+      btnSize: 'sm',
+      confirmBtnBsStyle: 'danger',
+      cancelBtnBsStyle: 'outline-danger',
+    });
+  };
+
   return (
     <div className="partyManagement mx-3 mx-md-4 ml-lg-7">
       <Helmet>
@@ -208,7 +230,7 @@ export function PartyManagement() {
           {
             text: 'Actions',
             dummyField: true,
-            formatter: (cell, { _id }) => (
+            formatter: (cell, { _id, name }) => (
               <>
                 <Button
                   title="Edit Party"
@@ -232,6 +254,18 @@ export function PartyManagement() {
                 >
                   <span className="btn-inner--icon">
                     <i className="fas fa-eye" />
+                  </span>
+                </Button>
+                <Button
+                  title="Delete Party"
+                  type="button"
+                  color="danger"
+                  size="sm"
+                  className="btn-sm ms-1 text-white"
+                  onClick={() => onDelete(_id, name)}
+                >
+                  <span className="btn-inner--icon">
+                    <i className="fas fa-trash" />
                   </span>
                 </Button>
               </>

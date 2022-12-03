@@ -6,8 +6,9 @@
 
 import NotificationHandler from 'components/Notifications/NotificationHandler';
 import { get } from 'lodash';
-import { getParty } from 'api/party';
+import { getParty, deleteParty } from 'api/party';
 import { paginateRecords } from 'api/record';
+import history from 'utils/history';
 import { INIT, SET_PARTY_DETAILS, SET_PARTY_HISTORY } from './constants';
 
 export const fetchPartyDetails = id => async dispatch => {
@@ -36,6 +37,26 @@ export const fetchPartyHistory = params => async dispatch => {
         get(err, 'response.data', null) ||
         'Something went wrong. Please try again later',
       title: 'Unable to fetch party history',
+    });
+  }
+};
+
+// eslint-disable-next-line no-unused-vars
+export const onDelete = id => async dispatch => {
+  try {
+    await deleteParty(id);
+    history.push('/party');
+    NotificationHandler.open({
+      operation: 'success',
+      title: 'Party deleted successfully',
+    });
+  } catch (err) {
+    NotificationHandler.open({
+      operation: 'failure',
+      message:
+        get(err, 'response.data', null) ||
+        'Something went wrong. Please try again later',
+      title: 'Unable to delete Party',
     });
   }
 };

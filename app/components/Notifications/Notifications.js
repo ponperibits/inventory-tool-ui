@@ -61,9 +61,10 @@ class Notifications extends React.Component {
                 {' '}
                 {title || 'Uh oh! Something went wrong'}
               </span>
-              <span data-notify="message">
+              <hr />
+              <div data-notify="message">
                 {message || 'Please try again later'}
-              </span>
+              </div>
             </div>
           ),
         };

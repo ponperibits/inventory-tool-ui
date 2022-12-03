@@ -243,7 +243,6 @@ export function TransactionManagement() {
             formatter: (cell, { _id }) => (
               <>
                 <Button
-                  disabled
                   title="Edit Transaction"
                   type="button"
                   color="primary"

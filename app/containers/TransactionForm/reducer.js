@@ -14,6 +14,7 @@ import {
   SET_TRANSACTION_DETAILS,
   SHOW_LOADING,
 } from './constants';
+import { shapeRecords } from './helpers';
 
 export const initialState = {
   transactionDate: '',
@@ -55,8 +56,7 @@ const transactionFormReducer = (state = initialState, action) =>
         draft.currency = action.payload.currency;
         draft.notes = action.payload.notes;
         draft.partyId = action.payload.supplierId || action.payload.customerId;
-        // draft.records = shapeRecords(action.payload.records);
-        draft.records = action.payload.records;
+        draft.records = shapeRecords(action.payload.records);
         draft.isEdit = true;
         break;
       case SHOW_LOADING:

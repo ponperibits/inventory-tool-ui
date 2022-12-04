@@ -82,3 +82,20 @@ exports.update = async (req, res) => {
     res.status(err.status).json(err.message);
   }
 };
+
+exports.delete = async (req, res) => {
+  try {
+    const { partyId } = req.params;
+
+    const party = await Request(
+      {
+        url: `/v1/party/${partyId}`,
+        method: 'DELETE',
+      },
+      req.headers,
+    );
+    res.json(party);
+  } catch (err) {
+    res.status(err.status).json(err.message);
+  }
+};

@@ -66,3 +66,20 @@ exports.update = async (req, res) => {
     res.status(err.status).json(err.message);
   }
 };
+
+exports.delete = async (req, res) => {
+  try {
+    const { transactionId } = req.params;
+
+    const transaction = await Request(
+      {
+        url: `/v1/transaction/${transactionId}`,
+        method: 'DELETE',
+      },
+      req.headers,
+    );
+    res.json(transaction);
+  } catch (err) {
+    res.status(err.status).json(err.message);
+  }
+};

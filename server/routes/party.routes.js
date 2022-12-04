@@ -8,5 +8,6 @@ router.get('', services.list);
 router.get('/:partyId', services.fetch);
 router.post('', services.create);
 router.patch('/:partyId', services.update);
+router.delete('/:partyId', services.delete);
 
 module.exports = router;

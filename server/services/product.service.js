@@ -82,3 +82,20 @@ exports.update = async (req, res) => {
     res.status(err.status).json(err.message);
   }
 };
+
+exports.delete = async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    const product = await Request(
+      {
+        url: `/v1/product/${productId}`,
+        method: 'DELETE',
+      },
+      req.headers,
+    );
+    res.json(product);
+  } catch (err) {
+    res.status(err.status).json(err.message);
+  }
+};

@@ -82,3 +82,20 @@ exports.update = async (req, res) => {
     res.status(err.status).json(err.message);
   }
 };
+
+exports.delete = async (req, res) => {
+  try {
+    const { expenseId } = req.params;
+
+    const expense = await Request(
+      {
+        url: `/v1/expense/${expenseId}`,
+        method: 'DELETE',
+      },
+      req.headers,
+    );
+    res.json(expense);
+  } catch (err) {
+    res.status(err.status).json(err.message);
+  }
+};

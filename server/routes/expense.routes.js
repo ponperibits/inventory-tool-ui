@@ -8,5 +8,6 @@ router.get('', services.list);
 router.get('/:expenseId', services.fetch);
 router.post('', services.create);
 router.patch('/:expenseId', services.update);
+router.delete('/:expenseId', services.delete);
 
 module.exports = router;

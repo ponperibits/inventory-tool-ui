@@ -5,6 +5,7 @@ export const getProfitPercent = cookie =>
 
 export const name = state => get(state, 'productForm.name', '');
 export const description = state => get(state, 'productForm.description', '');
+export const sku = state => get(state, 'productForm.sku', '');
 export const price = state => get(state, 'productForm.price', '');
 export const sellingPrice = state => get(state, 'productForm.sellingPrice', '');
 export const minStockWarning = state =>

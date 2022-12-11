@@ -33,6 +33,7 @@ export function ProductForm({
   const {
     name,
     description,
+    sku,
     price,
     sellingPrice,
     minStockWarning,
@@ -43,6 +44,7 @@ export function ProductForm({
   } = useSelector(state => ({
     name: selectors.name(state),
     description: selectors.description(state),
+    sku: selectors.sku(state),
     price: selectors.price(state),
     sellingPrice: selectors.sellingPrice(state),
     minStockWarning: selectors.minStockWarning(state),
@@ -70,6 +72,7 @@ export function ProductForm({
         operations.onEdit(id, {
           name,
           description,
+          sku,
           price,
           sellingPrice,
           minStockWarning,
@@ -81,6 +84,7 @@ export function ProductForm({
           {
             name,
             description,
+            sku,
             price,
             sellingPrice,
             minStockWarning,
@@ -188,6 +192,21 @@ export function ProductForm({
               error={validations}
               value={description}
               onChange={e => dispatch(operations.changeDescription(e))}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Label for="sku" sm={isPopup ? 4 : 2}>
+            Sku
+          </Label>
+          <Col sm={isPopup ? 8 : 6}>
+            <MBInput
+              type="textarea"
+              name="sku"
+              placeholder="Product SKU"
+              error={validations}
+              value={sku}
+              onChange={e => dispatch(operations.changeSku(e))}
             />
           </Col>
         </FormGroup>

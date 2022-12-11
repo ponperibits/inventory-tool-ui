@@ -175,6 +175,7 @@ export function ProductManagement() {
               </span>
             ),
           },
+          { text: 'SKU', dataField: 'sku' },
           {
             text: 'Price',
             dataField: 'price',

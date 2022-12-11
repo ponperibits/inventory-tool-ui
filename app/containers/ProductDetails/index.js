@@ -17,6 +17,7 @@ import {
 } from 'reactstrap';
 import Loader from 'components/Loaders';
 import GoBackHeader from 'components/GoBackHeader';
+import CopyToClipboard from 'components/CopyToClipboard';
 import AlertPopupHandler from 'components/AlertPopup/AlertPopupHandler';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -139,6 +140,14 @@ export function ProductDetails() {
         <div className="my-1">
           <span className="h5 text-muted">Details:</span>
         </div>
+        <p>
+          <span className="text-muted">SKU: </span>
+          <CopyToClipboard text={getProperty('sku')}>
+            <span className="text-primary hover-pointer text-bold fw-bold">
+              {getProperty('sku')}
+            </span>
+          </CopyToClipboard>
+        </p>
         <p>
           <span className="text-muted">Price: </span>
           <span className="text-primary text-bold fw-bold">

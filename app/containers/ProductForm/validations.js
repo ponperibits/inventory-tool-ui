@@ -15,6 +15,7 @@ export default yup.object().shape({
     .typeError('Price should be a number')
     .min(0, 'Price must be 0 or more')
     .required('Price is required'),
+  sku: yup.string().required('SKU is required'),
   description: yup.string(),
   name: yup.string().required('Name is required'),
 });

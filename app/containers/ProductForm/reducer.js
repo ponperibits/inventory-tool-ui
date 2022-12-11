@@ -8,6 +8,7 @@ import {
   INIT,
   CHANGE_NAME,
   CHANGE_DESCRIPTION,
+  CHANGE_SKU,
   CHANGE_PRICE,
   CHANGE_SELLING_PRICE,
   CHANGE_MIN_STOCK,
@@ -19,6 +20,7 @@ import {
 export const initialState = {
   name: '',
   description: '',
+  sku: '',
   price: '',
   sellingPrice: '',
   minStockWarning: '',
@@ -40,6 +42,9 @@ const productFormReducer = (state = initialState, action) =>
       case CHANGE_DESCRIPTION:
         draft.description = action.payload;
         break;
+      case CHANGE_SKU:
+        draft.sku = action.payload;
+        break;
       case CHANGE_PRICE:
         draft.price = action.payload;
         break;
@@ -52,6 +57,7 @@ const productFormReducer = (state = initialState, action) =>
       case SET_PRODUCT_DETAILS:
         draft.name = action.payload.name;
         draft.description = action.payload.description;
+        draft.sku = action.payload.sku;
         draft.price = action.payload.price;
         draft.sellingPrice = action.payload.sellingPrice;
         draft.minStockWarning = action.payload.minStockWarning;

@@ -12,6 +12,7 @@ import {
   INIT,
   CHANGE_NAME,
   CHANGE_DESCRIPTION,
+  CHANGE_SKU,
   CHANGE_PRICE,
   CHANGE_SELLING_PRICE,
   CHANGE_MIN_STOCK,
@@ -125,6 +126,11 @@ export const changeName = payload => ({
 
 export const changeDescription = payload => ({
   type: CHANGE_DESCRIPTION,
+  payload,
+});
+
+export const changeSku = payload => ({
+  type: CHANGE_SKU,
   payload,
 });
 

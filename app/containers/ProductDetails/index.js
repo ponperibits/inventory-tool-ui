@@ -26,6 +26,7 @@ import indianNumberFormatter from 'utils/indianNumberFormatter';
 import { get, isEmpty } from 'lodash';
 import history from 'utils/history';
 import { parseDateTime } from 'utils/dateTimeHelpers';
+import { useCookies } from 'react-cookie';
 import reducer from './reducer';
 import * as operations from './actions';
 import * as selectors from './selectors';
@@ -33,6 +34,8 @@ import * as selectors from './selectors';
 export function ProductDetails() {
   useInjectReducer({ key: 'productDetails', reducer });
   const dispatch = useDispatch();
+  const [cookie] = useCookies(['user']);
+
   const productDetailsInit = operations.productDetailsInit(dispatch);
 
   const {
@@ -149,13 +152,17 @@ export function ProductDetails() {
           </CopyToClipboard>
         </p>
         <p>
-          <span className="text-muted">Price: </span>
+          <span className="text-muted">
+            Price ({selectors.getCurrency(cookie)}):{' '}
+          </span>
           <span className="text-primary text-bold fw-bold">
             {indianNumberFormatter(getProperty('price'))}
           </span>
         </p>
         <p>
-          <span className="text-muted">Selling Price: </span>
+          <span className="text-muted">
+            Selling Price ({selectors.getCurrency(cookie)}):{' '}
+          </span>
           <span className="text-primary fw-bold">
             {indianNumberFormatter(getProperty('sellingPrice'))}
           </span>

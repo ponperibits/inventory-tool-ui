@@ -30,7 +30,7 @@ export const onEdit = userDetails => async dispatch => {
     await editUser(userDetails);
     NotificationHandler.open({
       operation: 'success',
-      title: 'Settings saved successfully',
+      title: 'Settings saved! Please logout and login again to see changes.',
     });
 
     dispatch(validationFailed({}));

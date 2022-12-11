@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import indianNumberFormatter from 'utils/indianNumberFormatter';
 import { useInjectReducer } from 'utils/injectReducer';
 import history from 'utils/history';
+import { useCookies } from 'react-cookie';
 import reducer from './reducer';
 import * as operations from './actions';
 import * as selectors from './selectors';
@@ -27,6 +28,7 @@ import * as selectors from './selectors';
 export function ProductManagement() {
   useInjectReducer({ key: 'productManagement', reducer });
   const dispatch = useDispatch();
+  const [cookie] = useCookies(['user']);
 
   const products = useSelector(selectors.products);
   const paginationDetails = useSelector(selectors.paginationDetails);
@@ -179,12 +181,14 @@ export function ProductManagement() {
           {
             text: 'Price',
             dataField: 'price',
-            formatter: cell => indianNumberFormatter(cell),
+            formatter: cell =>
+              `${selectors.getCurrency(cookie)} ${indianNumberFormatter(cell)}`,
           },
           {
             text: 'Selling Price',
             dataField: 'sellingPrice',
-            formatter: cell => indianNumberFormatter(cell),
+            formatter: cell =>
+              `${selectors.getCurrency(cookie)} ${indianNumberFormatter(cell)}`,
           },
           {
             text: 'No. of Units',

@@ -7,6 +7,7 @@ import produce from 'immer';
 import {
   INIT,
   CHANGE_NAME,
+  CHANGE_SHORT_LABEL,
   CHANGE_DESCRIPTION,
   CHANGE_SKU,
   CHANGE_PRICE,
@@ -19,6 +20,7 @@ import {
 
 export const initialState = {
   name: '',
+  shortLabel: '',
   description: '',
   sku: '',
   price: '',
@@ -39,6 +41,9 @@ const productFormReducer = (state = initialState, action) =>
       case CHANGE_NAME:
         draft.name = action.payload;
         break;
+      case CHANGE_SHORT_LABEL:
+        draft.shortLabel = action.payload;
+        break;
       case CHANGE_DESCRIPTION:
         draft.description = action.payload;
         break;
@@ -56,6 +61,7 @@ const productFormReducer = (state = initialState, action) =>
         break;
       case SET_PRODUCT_DETAILS:
         draft.name = action.payload.name;
+        draft.shortLabel = action.payload.shortLabel;
         draft.description = action.payload.description;
         draft.sku = action.payload.sku;
         draft.price = action.payload.price;

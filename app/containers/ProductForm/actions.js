@@ -11,6 +11,7 @@ import NotificationHandler from 'components/Notifications/NotificationHandler';
 import {
   INIT,
   CHANGE_NAME,
+  CHANGE_SHORT_LABEL,
   CHANGE_DESCRIPTION,
   CHANGE_SKU,
   CHANGE_PRICE,
@@ -121,6 +122,11 @@ export const productFormInit = dispatch => () => {
 
 export const changeName = payload => ({
   type: CHANGE_NAME,
+  payload,
+});
+
+export const changeShortLabel = payload => ({
+  type: CHANGE_SHORT_LABEL,
   payload,
 });
 

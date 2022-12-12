@@ -6,6 +6,7 @@
 
 export const INIT = 'app/ProductForm/INIT';
 export const CHANGE_NAME = 'app/ProductForm/CHANGE_NAME';
+export const CHANGE_SHORT_LABEL = 'app/ProductForm/CHANGE_SHORT_LABEL';
 export const CHANGE_DESCRIPTION = 'app/ProductForm/CHANGE_DESCRIPTION';
 export const CHANGE_SKU = 'app/ProductForm/CHANGE_SKU';
 export const CHANGE_PRICE = 'app/ProductForm/CHANGE_PRICE';

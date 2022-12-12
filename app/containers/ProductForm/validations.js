@@ -15,7 +15,14 @@ export default yup.object().shape({
     .typeError('Price should be a number')
     .min(0, 'Price must be 0 or more')
     .required('Price is required'),
-  sku: yup.string().required('SKU is required'),
+  sku: yup
+    .string()
+    .max(13, "SKU shouldn't exceed 13 characters")
+    .required('SKU is required'),
   description: yup.string(),
+  shortLabel: yup
+    .string()
+    .max(50, "Short Label shouldn't exceed 50 characters")
+    .required('Short Label is required'),
   name: yup.string().required('Name is required'),
 });

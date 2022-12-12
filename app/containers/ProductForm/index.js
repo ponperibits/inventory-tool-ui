@@ -32,6 +32,7 @@ export function ProductForm({
 
   const {
     name,
+    shortLabel,
     description,
     sku,
     price,
@@ -43,6 +44,7 @@ export function ProductForm({
     validations,
   } = useSelector(state => ({
     name: selectors.name(state),
+    shortLabel: selectors.shortLabel(state),
     description: selectors.description(state),
     sku: selectors.sku(state),
     price: selectors.price(state),
@@ -71,6 +73,7 @@ export function ProductForm({
       dispatch(
         operations.onEdit(id, {
           name,
+          shortLabel,
           description,
           sku,
           price,
@@ -83,6 +86,7 @@ export function ProductForm({
         operations.onSubmit(
           {
             name,
+            shortLabel,
             description,
             sku,
             price,
@@ -176,7 +180,27 @@ export function ProductForm({
               placeholder="Product Name"
               error={validations}
               value={name}
-              onChange={e => dispatch(operations.changeName(e))}
+              onChange={e => {
+                dispatch(operations.changeName(e));
+                if (!isEdit) {
+                  dispatch(operations.changeShortLabel(e));
+                }
+              }}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup row>
+          <Label for="shortLabel" sm={isPopup ? 4 : 2}>
+            Short Label
+          </Label>
+          <Col sm={isPopup ? 8 : 6}>
+            <MBInput
+              type="text"
+              name="shortLabel"
+              placeholder="Product Label"
+              error={validations}
+              value={shortLabel}
+              onChange={e => dispatch(operations.changeShortLabel(e))}
             />
           </Col>
         </FormGroup>

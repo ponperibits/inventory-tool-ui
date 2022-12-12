@@ -5,6 +5,7 @@
  */
 
 import { get } from 'lodash';
+import moment from 'moment-timezone';
 import { getRecords } from 'api/record';
 import NotificationHandler from 'components/Notifications/NotificationHandler';
 import {
@@ -19,8 +20,12 @@ import {
 export const onSubmit = ({ startDate, endDate, ...rest }) => async dispatch => {
   try {
     const { data } = await getRecords({
-      startDate: startDate.valueOf(),
-      endDate: endDate.valueOf(),
+      startDate: moment(startDate)
+        .startOf('day')
+        .valueOf(),
+      endDate: moment(endDate)
+        .endOf('day')
+        .valueOf(),
       ...rest,
     });
     dispatch(setReportList(data));

@@ -15,4 +15,4 @@ export const disableFutureDates = current => {
 };
 
 export const isAfterDate = (startDate, targetDate) =>
-  targetDate.isAfter(startDate);
+  targetDate.isAfter(moment(startDate).subtract(1, 'day'));

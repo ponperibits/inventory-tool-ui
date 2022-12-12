@@ -30,6 +30,7 @@ import {
   isAfterDate,
   parseDate,
 } from 'utils/dateTimeHelpers';
+import { useCookies } from 'react-cookie';
 import { get } from 'lodash';
 import reducer from './reducer';
 import * as operations from './actions';
@@ -38,6 +39,8 @@ import * as selectors from './selectors';
 export function ReportManagement() {
   useInjectReducer({ key: 'reportManagement', reducer });
   const dispatch = useDispatch();
+  const [cookie] = useCookies(['user']);
+
   const reportInit = operations.reportInit(dispatch);
   const printRef = useRef();
 
@@ -312,7 +315,10 @@ export function ReportManagement() {
             {
               text: 'Amount',
               dataField: 'amount',
-              formatter: cell => indianNumberFormatter(cell),
+              formatter: cell =>
+                `${selectors.getCurrency(cookie)} ${indianNumberFormatter(
+                  cell,
+                )}`,
             },
           ]}
         />

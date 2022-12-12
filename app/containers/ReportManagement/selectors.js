@@ -1,5 +1,7 @@
 import { get } from 'lodash';
 
+export const getCurrency = cookie => get(cookie, 'user.currency', '');
+
 export const reportList = state =>
   get(state, 'reportManagement.reportList', []);
 

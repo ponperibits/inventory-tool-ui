@@ -23,6 +23,7 @@ import indianNumberFormatter from 'utils/indianNumberFormatter';
 import history from 'utils/history';
 import { EXPENSE } from 'utils/appConstants';
 import { parseDate } from 'utils/dateTimeHelpers';
+import { useCookies } from 'react-cookie';
 import reducer from './reducer';
 import * as operations from './actions';
 import * as selectors from './selectors';
@@ -30,6 +31,7 @@ import * as selectors from './selectors';
 export function ExpenseManagement() {
   useInjectReducer({ key: 'expenseManagement', reducer });
   const dispatch = useDispatch();
+  const [cookie] = useCookies(['user']);
 
   const expenses = useSelector(selectors.expenses);
   const paginationDetails = useSelector(selectors.paginationDetails);
@@ -183,7 +185,8 @@ export function ExpenseManagement() {
           {
             text: 'Amount',
             dataField: 'amount',
-            formatter: cell => indianNumberFormatter(cell),
+            formatter: cell =>
+              `${selectors.getCurrency(cookie)} ${indianNumberFormatter(cell)}`,
           },
           {
             text: 'Notes',

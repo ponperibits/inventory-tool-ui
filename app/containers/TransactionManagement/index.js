@@ -23,6 +23,7 @@ import { useInjectReducer } from 'utils/injectReducer';
 import indianNumberFormatter from 'utils/indianNumberFormatter';
 import history from 'utils/history';
 import { parseDate } from 'utils/dateTimeHelpers';
+import { useCookies } from 'react-cookie';
 import reducer from './reducer';
 import * as operations from './actions';
 import * as selectors from './selectors';
@@ -30,6 +31,7 @@ import * as selectors from './selectors';
 export function TransactionManagement() {
   useInjectReducer({ key: 'transactionManagement', reducer });
   const dispatch = useDispatch();
+  const [cookie] = useCookies(['user']);
 
   const transactions = useSelector(selectors.transactions);
   const paginationDetails = useSelector(selectors.paginationDetails);
@@ -61,7 +63,8 @@ export function TransactionManagement() {
           {
             text: 'Amount',
             dataField: 'amount',
-            formatter: cell => indianNumberFormatter(cell),
+            formatter: cell =>
+              `${selectors.getCurrency(cookie)} ${indianNumberFormatter(cell)}`,
           },
           {
             text: 'Product Units Balance',
@@ -235,7 +238,8 @@ export function TransactionManagement() {
           {
             text: 'Amount',
             dataField: 'amount',
-            formatter: cell => indianNumberFormatter(cell),
+            formatter: cell =>
+              `${selectors.getCurrency(cookie)} ${indianNumberFormatter(cell)}`,
           },
           {
             text: 'Actions',

@@ -22,7 +22,7 @@ export default yup.object().shape({
   description: yup.string(),
   shortLabel: yup
     .string()
-    .max(50, "Short Label shouldn't exceed 50 characters")
+    .max(35, "Short Label shouldn't exceed 35 characters")
     .required('Short Label is required'),
   name: yup.string().required('Name is required'),
 });

@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import qs from 'query-string';
 import {
   Card,
@@ -17,8 +17,10 @@ import {
 } from 'reactstrap';
 import Loader from 'components/Loaders';
 import GoBackHeader from 'components/GoBackHeader';
+import NotificationHandler from 'components/Notifications/NotificationHandler';
 import CopyToClipboard from 'components/CopyToClipboard';
 import AlertPopupHandler from 'components/AlertPopup/AlertPopupHandler';
+import PrintPriceModal from 'components/PrintPriceModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -35,6 +37,8 @@ export function ProductDetails() {
   useInjectReducer({ key: 'productDetails', reducer });
   const dispatch = useDispatch();
   const [cookie] = useCookies(['user']);
+  const [labelDetails, setLabelDetails] = useState({});
+  const [showModal, setShowModal] = useState(false);
 
   const productDetailsInit = operations.productDetailsInit(dispatch);
 
@@ -71,6 +75,33 @@ export function ProductDetails() {
         aria-hidden
         className="ms-auto far fa-edit text-muted hover-pointer hover-color-primary me-3"
         onClick={() => history.push(`/product/add?id=${getProperty('_id')}`)}
+      />
+      <i
+        aria-hidden
+        className="ms-auto fas fa-print text-muted hover-pointer hover-color-primary me-3"
+        onClick={() => {
+          if (
+            getProperty('shortLabel', false) &&
+            getProperty('sku', false) &&
+            getProperty('sellingPrice', false) &&
+            !isEmpty(selectors.getCurrency(cookie))
+          ) {
+            setLabelDetails({
+              name: getProperty('name'),
+              shortLabel: getProperty('shortLabel'),
+              sku: getProperty('sku'),
+              sellingPrice: getProperty('sellingPrice'),
+              currency: selectors.getCurrency(cookie),
+            });
+            setShowModal(true);
+          } else {
+            NotificationHandler.open({
+              operation: 'failure',
+              message: 'Please fill al the necessary details',
+              title: "Can't print label",
+            });
+          }
+        }}
       />
       <i
         aria-hidden
@@ -128,7 +159,7 @@ export function ProductDetails() {
     <Card>
       <CardHeader>
         <Row className="px-1 align-items-center">
-          <Col xs="12" md="11">
+          <Col xs="12" md="10">
             <span className="h2 mr-2 text-primary">{getProperty('name')}</span>
           </Col>
           {getOptions()}
@@ -143,6 +174,12 @@ export function ProductDetails() {
         <div className="my-1">
           <span className="h5 text-muted">Details:</span>
         </div>
+        <p>
+          <span className="text-muted">Product Label: </span>
+          <span className="text-primary text-bold fw-bold">
+            {getProperty('shortLabel')}
+          </span>
+        </p>
         <p>
           <span className="text-muted">SKU: </span>
           <CopyToClipboard text={getProperty('sku')}>
@@ -268,6 +305,11 @@ export function ProductDetails() {
           </Card>
         </Col>
       </Row>
+      <PrintPriceModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        labelDetails={labelDetails}
+      />
     </div>
   );
 }

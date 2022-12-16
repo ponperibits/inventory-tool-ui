@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Row,
   Col,
@@ -12,24 +12,19 @@ import {
   Pagination,
   PaginationItem,
   PaginationLink,
-  Modal,
-  ModalBody,
 } from 'reactstrap';
 import { Helmet } from 'react-helmet';
-import ReactToPrint from 'react-to-print';
 import Table from 'components/Table';
 import AlertPopupHandler from 'components/AlertPopup/AlertPopupHandler';
-import PriceLabelModal from 'components/PriceLabelModal';
+import PrintPriceModal from 'components/PrintPriceModal';
 import { useDispatch, useSelector } from 'react-redux';
 import indianNumberFormatter from 'utils/indianNumberFormatter';
 import { useInjectReducer } from 'utils/injectReducer';
 import history from 'utils/history';
-import { get } from 'lodash';
 import { useCookies } from 'react-cookie';
 import reducer from './reducer';
 import * as operations from './actions';
 import * as selectors from './selectors';
-import './styles.scss';
 
 export function ProductManagement() {
   useInjectReducer({ key: 'productManagement', reducer });
@@ -37,7 +32,6 @@ export function ProductManagement() {
   const [cookie] = useCookies(['user']);
   const [labelDetails, setLabelDetails] = useState({});
   const [showModal, setShowModal] = useState(false);
-  const printRef = useRef();
 
   const products = useSelector(selectors.products);
   const paginationDetails = useSelector(selectors.paginationDetails);
@@ -275,35 +269,11 @@ export function ProductManagement() {
       <Row>
         <Col className="text-end ms-auto">{getPagination()}</Col>
       </Row>
-      <Modal isOpen={showModal} size="xl">
-        <ModalBody>
-          <div className="printPage" ref={printRef}>
-            <div className="printInnerPage d-flex flex-wrap">
-              {Array(16)
-                .fill('0')
-                .map(() => (
-                  <PriceLabelModal
-                    name={get(labelDetails, 'shortLabel')}
-                    sku={get(labelDetails, 'sku')}
-                    sellingPrice={get(labelDetails, 'sellingPrice')}
-                    currency={get(labelDetails, 'currency')}
-                  />
-                ))}
-            </div>
-          </div>
-          <ReactToPrint
-            trigger={() => <Button color="primary">Print</Button>}
-            content={() => printRef.current}
-          />
-          <Button
-            className="ms-1"
-            color="outline-primary"
-            onClick={() => setShowModal(false)}
-          >
-            Cancel
-          </Button>
-        </ModalBody>
-      </Modal>
+      <PrintPriceModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        labelDetails={labelDetails}
+      />
     </div>
   );
 }
